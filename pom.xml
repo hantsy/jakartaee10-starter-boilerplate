@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <!-- Global Maven settings -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Jakarta EE 10 targets Java 11, but it is also required to support Java 17 -->
+        <maven.compiler.release>17</maven.compiler.release>
+
+        <!-- The default value is changed to `false` since maven-war-plugin 3.0.0 -->
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+
+        <!-- Official Maven Plugins -->
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
+        <maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
+        <maven-surefire-plugin.version>3.1.0</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.1.0</maven-failsafe-plugin.version>
+        <maven-surefire-report-plugin.version>3.1.0</maven-surefire-report-plugin.version>
+
+        <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
+        <cargo-maven3-plugin.version>1.10.6</cargo-maven3-plugin.version>
+
+        <!-- Jakarta EE API 9.1.0 adds Java 11 support-->
+        <jakartaee-api.version>9.1.0</jakartaee-api.version>
+
+        <!-- Arquillian 1.7.0 adds Jakarta EE 9 and JUnit 5 support-->
+        <arquillian-bom.version>1.7.0.Alpha14</arquillian-bom.version>
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+
+        <!-- Test Utilities -->
+        <mockito.version>5.2.0</mockito.version>
+        <json-path.version>2.7.0</json-path.version>
+        <awaitility.version>4.2.0</awaitility.version>
+        <hamcrest.version>2.2</hamcrest.version>
+        <jsonassert.version>1.5.1</jsonassert.version>
+        <assertj.version>3.24.2</assertj.version>
+
+        <!-- Jacoco code coverage report -->
+        <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
+
+        <!-- Glassfish server -->
+        <glassfish.version>7.0.4</glassfish.version>
+        <jersey.version>3.1.1</jersey.version>
+        <eclipselink.version>4.0.1</eclipselink.version>
+        <arquillian-glassfish-jakarta.version>7.0.5</arquillian-glassfish-jakarta.version>
+
+        <!-- Payara server -->
+        <payara.version>6.2023.1</payara.version>
+        <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
+
+        <!-- Wildfly server -->
+        <wildfly.version>27.0.1.Final</wildfly.version>
+        <wildfly-maven-plugin.version>4.0.0.Final</wildfly-maven-plugin.version>
+        <wildfly-arquillian.version>4.0.0.Alpha6</wildfly-arquillian.version>
+        <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
+        <openshift-maven-plugin.version>1.11.0</openshift-maven-plugin.version>
+        <resteasy.version>6.2.3.Final</resteasy.version>
+
+        <!-- OpenLiberty server -->
+        <!-- Since 23.0.0.3, openliberty adds complete Jakarta EE 10 support.
+		see: https://openliberty.io/blog/2023/04/04/23.0.0.3.html
+         -->
+        <liberty.runtime.version>23.0.0.3</liberty.runtime.version>
+        <!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
+        <derby.version>10.14.2.0</derby.version>
+        <liberty-maven-plugin.version>3.7.1</liberty-maven-plugin.version>
+        <!-- Jakarta EE 9 support see: https://github.com/OpenLiberty/liberty-arquillian/issues/71 -->
+        <arquillian-liberty-jakarta.version>2.1.2</arquillian-liberty-jakarta.version>
+
+
+        <!-- By default, skip tests -->
+        <skip.unit.tests>true</skip.unit.tests>
+        <skip.integration.tests>true</skip.integration.tests>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>jakarta.platform</groupId>
+                <artifactId>jakarta.jakartaee-api</artifactId>
+                <version>${jakartaee-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-bom</artifactId>
+                <version>${resteasy.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian-bom.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit5</groupId>
+            <artifactId>arquillian-junit5-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- see: https://github.com/arquillian/arquillian-core/issues/248 -->
+        <!-- and https://github.com/arquillian/arquillian-core/pull/246/files -->
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet-jakarta</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>demo</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven3-plugin</artifactId>
+                    <version>${cargo-maven3-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.openliberty.tools</groupId>
+                    <artifactId>liberty-maven-plugin</artifactId>
+                    <version>${liberty-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <skipTests>${skip.unit.tests}</skipTests>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/it/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <skipITs>${skip.integration.tests}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/it/**</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>openliberty</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.openliberty.tools</groupId>
+                        <artifactId>liberty-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>wildfly</id>
+            <properties>
+                <!-- Wildfly server -->
+                <wildfly.artifactId>wildfly-preview-dist</wildfly.artifactId>
+                <jboss-as.home>${project.build.directory}/wildfly-preview-${wildfly.version}</jboss-as.home>
+            </properties>
+            <build>
+                <plugins>
+
+                    <!-- unpack a copy of WildFly-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>${wildfly.artifactId}</artifactId>
+                                            <version>${wildfly.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- The WildFly plugin deploys your war to a local running WildFly container -->
+                    <!-- To use, run: mvn package wildfly:deploy -->
+                    <!-- For Jakarta EE 9, use `wildfly-preview-dist` as artifactId instead to start and deploy applications-->
+                    <!-- Run: mvn clean wildfly:run -PWildfly -Dwildfly.artifactId=wildfly-preview-dist -Dwildfly.version=22.0.0.Alpha1 -->
+                    <!-- or set the `jboss-as.home` to run: mvn clean wildfly:run -PWildfly -Djboss-as.home=D:\appsvr\wildfly-preview-22.0.0.Alpha1-->
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
+                        <configuration>
+                            <!-- if a jboss-as.home or jboss.home property is not present, firstly it will download
+                                    a copy of wildfly distribution automatically -->
+                            <!-- <jossHome>${env.WILDFLY_HOME}</jbossHome>-->
+                            <!--<jbossHome>D:\appsvr\wildfly-preview-22.0.0.Alpha1</jbossHome>-->
+
+                            <!-- To deploy a running wildfly server -->
+                            <!-- <hostname></hostname>
+                                    <port></port>
+                                    <username></username>
+                                    <password></password> -->
+
+                            <!-- or set a wildfly.id property to add a server in settings.xml -->
+                            <!--<id>wildfly-svr</id> -->
+                            <!-- <scripts>
+                                <script>config.cli</script>
+                            </scripts> -->
+
+                            <!-- required for enabling OpenIdConnect -->
+                            <!--<commands>
+                                <command>/subsystem=undertow/application-security-domain=other:write-attribute(name=integrated-jaspi, value=false)</command>
+                                <command>reload</command>
+                            </commands>-->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <repositories>
+                <repository>
+                    <id>opensaml</id>
+                    <url>https://build.shibboleth.net/nexus/content/repositories/releases/</url>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>glassfish</id>
+            <properties>
+                <cargo.zipUrlInstaller.downloadDir>${project.basedir}/../installs</cargo.zipUrlInstaller.downloadDir>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+                                            <artifactId>jersey-cdi-rs-inject</artifactId>
+                                            <version>${jersey.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/cargo/installs/glassfish-${glassfish.version}/glassfish7/glassfish/modules</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <configuration>
+                            <container>
+                                <containerId>glassfish7x</containerId>
+
+                                <!-- <artifactInstaller>
+                                    <groupId>org.glassfish.main.distributions</groupId>
+                                    <artifactId>glassfish</artifactId>
+                                    <version>${glassfish.version}</version>
+                                </artifactInstaller> -->
+                                <zipUrlInstaller>
+                                    <url>https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip</url>
+                                    <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
+                                </zipUrlInstaller>
+                            </container>
+                            <configuration>
+                                <!-- the configuration used to deploy -->
+                                <home>${project.build.directory}/glassfish7x-home</home>
+                                <properties>
+                                    <cargo.remote.password></cargo.remote.password>
+                                    <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
+                                </properties>
+                                <datasources>
+                                    <datasource>
+                                        <driverClass>org.apache.derby.jdbc.EmbeddedDriver</driverClass>
+                                        <url>jdbc:derby:derbyDB;create=true</url>
+                                        <jndiName>jdbc/__default</jndiName>
+                                        <username>APP</username>
+                                        <password>nonemptypassword</password>
+                                    </datasource>
+                                </datasources>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-glassfish-managed</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <!-- Jersey -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.github.hantsy.arquillian-container-glassfish-jakarta</groupId>
+                    <artifactId>arquillian-glassfish-managed-jakarta</artifactId>
+                    <version>${arquillian-glassfish-jakarta.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-glassfish-managed</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.glassfish.main.distributions</groupId>
+                                            <artifactId>glassfish</artifactId>
+                                            <version>${glassfish.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.glassfish.jersey.ext.cdi</groupId>
+                                            <artifactId>jersey-cdi-rs-inject</artifactId>
+                                            <version>${jersey.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/glassfish7/glassfish/modules</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <GLASSFISH_HOME>${project.build.directory}/glassfish7</GLASSFISH_HOME>
+                            </environmentVariables>
+                            <systemPropertyVariables>
+                                <arquillian.launch>glassfish-managed</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-glassfish-remote</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <!-- Jersey -->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.github.hantsy.arquillian-container-glassfish-jakarta</groupId>
+                    <artifactId>arquillian-glassfish-remote-jakarta</artifactId>
+                    <version>${arquillian-glassfish-jakarta.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-glassfish-remote</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <arquillian.launch>glassfish-remote</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
