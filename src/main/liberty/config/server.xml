@@ -38,4 +38,36 @@
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+    <!-- see: https://rieckpil.de/howto-simple-jms-application-with-the-embedded-messaging-engine-in-open-liberty/-->
+    <messagingEngine>
+        <queue id="HelloQueue"/>
+    </messagingEngine>
+
+    <!--<jmsQueueConnectionFactory jndiName="java:comp/DefaultJMSConnectionFactory">
+        <properties.wasJms remoteServerAddress="localhost:7276:BootStrapBasicMessaging" />
+    </jmsQueueConnectionFactory>-->
+
+    <jmsQueue id="jms/HelloQueue" jndiName="java:app/jms/HelloQueue">
+        <properties.wasJms queueName="HelloQueue"/>
+    </jmsQueue>
+
+    <jmsActivationSpec id="jakartaee8-starter/HelloConsumer">
+        <properties.wasJms
+                destinationRef="jms/HelloQueue"
+                destinationType="javax.jms.Queue"
+        /><!-- remoteServerAddress="localhost:7276:BootstrapBasicMessaging" -->
+    </jmsActivationSpec>
+
+    <!-- Derby Library Configuration -->
+    <library id="derbyJDBCLib">
+        <fileset dir="${shared.resource.dir}" includes="derby*.jar"/>
+    </library>
+
+    <!-- Datasource Configuration -->
+    <!-- remove jndiName="" to serve java:comp/DefaultDataSource for Java EE 7 or above -->
+    <dataSource id="DefaultDataSource">
+        <jdbcDriver libraryRef="derbyJDBCLib" />
+        <properties.derby.embedded databaseName="ExampleDb" createDatabase="create"/>
+    </dataSource>
 </server>

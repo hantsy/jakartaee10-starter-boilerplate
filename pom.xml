@@ -29,13 +29,13 @@
         <maven-surefire-report-plugin.version>3.1.0</maven-surefire-report-plugin.version>
 
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
-        <cargo-maven3-plugin.version>1.10.6</cargo-maven3-plugin.version>
+        <cargo-maven3-plugin.version>1.10.7</cargo-maven3-plugin.version>
 
         <!-- Jakarta EE API 10.0.0 -->
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
 
         <!-- Arquillian 1.7.0 adds Jakarta EE 9 and JUnit 5 support-->
-        <arquillian-bom.version>1.7.0.Alpha14</arquillian-bom.version>
+        <arquillian-bom.version>1.7.0.Final</arquillian-bom.version>
         <junit-jupiter.version>5.9.3</junit-jupiter.version>
 
         <!-- Test Utilities -->
@@ -50,10 +50,10 @@
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
 
         <!-- Glassfish server -->
-        <glassfish.version>7.0.5</glassfish.version>
+        <glassfish.version>7.0.4</glassfish.version>
         <jersey.version>3.1.1</jersey.version>
         <eclipselink.version>4.0.1</eclipselink.version>
-        <arquillian-glassfish-jakarta.version>7.0.5</arquillian-glassfish-jakarta.version>
+        <arquillian-glassfish-jakarta.version>7.0.4</arquillian-glassfish-jakarta.version>
 
         <!-- Payara server -->
         <payara.version>6.2023.1</payara.version>
@@ -61,8 +61,8 @@
 
         <!-- Wildfly server -->
         <wildfly.version>27.0.1.Final</wildfly.version>
-        <wildfly-maven-plugin.version>4.0.0.Final</wildfly-maven-plugin.version>
-        <wildfly-arquillian.version>4.0.0.Alpha6</wildfly-arquillian.version>
+        <wildfly-maven-plugin.version>4.1.0.Final</wildfly-maven-plugin.version>
+        <wildfly-arquillian.version>5.0.0.Final</wildfly-arquillian.version>
         <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
         <openshift-maven-plugin.version>1.11.0</openshift-maven-plugin.version>
         <resteasy.version>6.2.4.Final</resteasy.version>
@@ -154,6 +154,7 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
