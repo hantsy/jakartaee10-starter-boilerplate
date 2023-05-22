@@ -56,7 +56,7 @@
         <arquillian-glassfish-jakarta.version>7.0.4</arquillian-glassfish-jakarta.version>
 
         <!-- Payara server -->
-        <payara.version>6.2023.1</payara.version>
+        <payara.version>6.2023.4</payara.version>
         <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
 
         <!-- Wildfly server -->
@@ -353,7 +353,9 @@
                                             <overWrite>false</overWrite>
                                         </artifactItem>
                                     </artifactItems>
-                                    <outputDirectory>${project.build.directory}/cargo/installs/glassfish-${glassfish.version}/glassfish7/glassfish/modules</outputDirectory>
+                                    <outputDirectory>
+                                        ${project.build.directory}/cargo/installs/glassfish-${glassfish.version}/glassfish7/glassfish/modules
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -371,7 +373,9 @@
                                     <version>${glassfish.version}</version>
                                 </artifactInstaller> -->
                                 <zipUrlInstaller>
-                                    <url>https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip</url>
+                                    <url>
+                                        https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip
+                                    </url>
                                     <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
                                 </zipUrlInstaller>
                             </container>
@@ -380,7 +384,8 @@
                                 <home>${project.build.directory}/glassfish7x-home</home>
                                 <properties>
                                     <cargo.remote.password></cargo.remote.password>
-                                    <cargo.glassfish.removeDefaultDatasource>true</cargo.glassfish.removeDefaultDatasource>
+                                    <cargo.glassfish.removeDefaultDatasource>true
+                                    </cargo.glassfish.removeDefaultDatasource>
                                 </properties>
                                 <datasources>
                                     <datasource>
@@ -397,6 +402,68 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>payara</id>
+            <properties>
+                <glassfish.home>${project.build.directory}/payara6</glassfish.home>
+                <glassfish.domainDir>${glassfish.home}/glassfish/domains</glassfish.domainDir>
+                <glassfish.domainName>domain1</glassfish.domainName>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>fish.payara.distributions</groupId>
+                                            <artifactId>payara</artifactId>
+                                            <version>${payara.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven3-plugin</artifactId>
+                        <version>${cargo-maven3-plugin.version}</version>
+                        <configuration>
+                            <container>
+                                <containerId>payara</containerId>
+                                <type>installed</type>
+                                <home>${glassfish.home}</home>
+                            </container>
+                            <configuration>
+                                <type>existing</type> <!-- standalone type will create a new domain for deployment -->
+                                <home>${glassfish.domainDir}</home>
+                                <properties>
+                                    <cargo.glassfish.domain.name>${glassfish.domainName}</cargo.glassfish.domain.name>
+                                    <cargo.remote.timeout>600000</cargo.remote.timeout>
+                                    <cargo.remote.password/>
+                                </properties>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Glassfish/Payara remote deployment:
+        see:https://codehaus-cargo.github.io/cargo/Remote+deployments+to+GlassFish+6.x+onwards+and+to+recent+Payara+versions.html
+        -->
         <profile>
             <id>arq-glassfish-managed</id>
             <properties>
@@ -486,7 +553,8 @@
                                             <overWrite>false</overWrite>
                                         </artifactItem>
                                     </artifactItems>
-                                    <outputDirectory>${project.build.directory}/glassfish7/glassfish/modules</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/glassfish7/glassfish/modules
+                                    </outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
