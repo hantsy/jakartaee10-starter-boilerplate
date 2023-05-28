@@ -1,0 +1,5 @@
+FROM omnifish/glassfish:7.0.4
+
+COPY --chown=1001:0 target/*.war /opt/glassfish7/glassfish/domains/domain1/autodeploy
+
+CMD ["/opt/glassfish7/bin/asadmin","start-database"]
