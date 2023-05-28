@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 @Stateless
 public class TodoRepository extends EntityRepository<Todo, UUID> {
 
@@ -32,16 +31,16 @@ public class TodoRepository extends EntityRepository<Todo, UUID> {
 
         // set predicates
         List<Predicate> predicates = new ArrayList<>();
-        if (!title.isBlank()) {
+        if (title != null && !title.isBlank()) {
             predicates.add(cb.like(root.get("title"), "%" + title + "%"));
         }
         query.where(predicates.toArray(new Predicate[0]));
 
-        //perform query
+        // perform query
         return this.entityManager.createQuery(query).getResultList();
     }
 
-    public void  markAsCompleted(UUID id) {
+    public void markAsCompleted(UUID id) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         // create query for updating
         CriteriaUpdate<Todo> query = cb.createCriteriaUpdate(Todo.class);
@@ -52,11 +51,11 @@ public class TodoRepository extends EntityRepository<Todo, UUID> {
         query.set(root.get("completed"), true)
                 .where(cb.equal(root.get("id"), id), cb.equal(root.get("completed"), false));
 
-        //perform query
+        // perform query
         this.entityManager.createQuery(query).executeUpdate();
     }
 
-    public void  markAsUnCompleted(UUID id) {
+    public void markAsUnCompleted(UUID id) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         // create query for updating
         CriteriaUpdate<Todo> query = cb.createCriteriaUpdate(Todo.class);
@@ -67,7 +66,7 @@ public class TodoRepository extends EntityRepository<Todo, UUID> {
         query.set(root.get("completed"), false)
                 .where(cb.equal(root.get("id"), id), cb.equal(root.get("completed"), true));
 
-        //perform query
+        // perform query
         this.entityManager.createQuery(query).executeUpdate();
     }
 }

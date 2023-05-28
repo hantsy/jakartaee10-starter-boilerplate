@@ -33,8 +33,10 @@
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
 
+    <applicationMonitor updateTrigger="mbean"/>
+
     <!-- Configures the application on a specified context root -->
-    <webApplication contextRoot="/demo" location="demo.war" />
+    <!-- <webApplication contextRoot="/demo" location="demo.war" /> -->
 
     <!-- Default SSL configuration enables trust for default certificates from the Java runtime -->
     <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
@@ -55,7 +57,7 @@
     <jmsActivationSpec id="jakartaee8-starter/HelloConsumer">
         <properties.wasJms
                 destinationRef="jms/HelloQueue"
-                destinationType="javax.jms.Queue"
+                destinationType="jakarta.jms.Queue"
         /><!-- remoteServerAddress="localhost:7276:BootstrapBasicMessaging" -->
     </jmsActivationSpec>
 

@@ -60,7 +60,7 @@
         <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
 
         <!-- Wildfly server -->
-        <wildfly.version>27.0.1.Final</wildfly.version>
+        <wildfly.version>28.0.1.Final</wildfly.version>
         <wildfly-maven-plugin.version>4.1.0.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.0.Final</wildfly-arquillian.version>
         <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
@@ -238,6 +238,33 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.derby</groupId>
+                                    <artifactId>derby</artifactId>
+                                    <version>${derby.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources
+                            </outputDirectory>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <groupId>io.openliberty.tools</groupId>
                         <artifactId>liberty-maven-plugin</artifactId>
                     </plugin>
@@ -249,6 +276,7 @@
             <properties>
                 <!-- Wildfly server -->
                 <wildfly.artifactId>wildfly-preview-dist</wildfly.artifactId>
+                <wildfly.serverConfig>standalone-full.xml</wildfly.serverConfig>
                 <jboss-as.home>${project.build.directory}/wildfly-preview-${wildfly.version}</jboss-as.home>
             </properties>
             <build>
@@ -262,7 +290,7 @@
                         <executions>
                             <execution>
                                 <id>unpack</id>
-                                <phase>process-classes</phase>
+                                <phase>process-resources</phase>
                                 <goals>
                                     <goal>unpack</goal>
                                 </goals>
