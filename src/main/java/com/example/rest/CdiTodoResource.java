@@ -1,9 +1,9 @@
 package com.example.rest;
 
 
+import com.example.cdi.CdiTodoRepository;
 import com.example.domain.Todo;
 import com.example.domain.TodoNotFoundException;
-import com.example.ejb.EjbTodoRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -17,13 +17,13 @@ import java.net.URI;
 import java.util.UUID;
 
 @RequestScoped
-@Path("todos")
+@Path("cditodos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class TodoResource {
+public class CdiTodoResource {
 
     @Inject
-    EjbTodoRepository todoRepository;
+    CdiTodoRepository todoRepository;
 
     @Context
     UriInfo uriInfo;

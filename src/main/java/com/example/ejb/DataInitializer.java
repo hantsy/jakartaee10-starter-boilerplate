@@ -1,6 +1,6 @@
-package com.example.domain;
+package com.example.ejb;
 
-import com.example.repository.TodoRepository;
+import com.example.domain.Todo;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class DataInitializer {
     private static Logger LOG = Logger.getLogger(DataInitializer.class.getName());
     @Inject
-    TodoRepository todoRepository;
+    EjbTodoRepository todoRepository;
 
     @PostConstruct
     public void init(){

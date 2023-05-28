@@ -1,8 +1,8 @@
-package com.example.repository;
+package com.example.cdi;
 
 import com.example.domain.Todo;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
+import com.example.domain.Todo_;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Stateless
-public class TodoRepository extends EntityRepository<Todo, UUID> {
+@ApplicationScoped
+public class CdiTodoRepository implements CrudRepository<Todo, UUID> {
 
     @PersistenceContext
     EntityManager entityManager;
 
     @Override
-    public EntityManager getEntityManager() {
+    public EntityManager entityManager() {
         return this.entityManager;
     }
 
@@ -63,8 +63,10 @@ public class TodoRepository extends EntityRepository<Todo, UUID> {
         Root<Todo> root = query.from(Todo.class);
 
         // set predicates
-        query.set(root.get("completed"), false)
-                .where(cb.equal(root.get("id"), id), cb.equal(root.get("completed"), true));
+        // query.set(root.get("completed"), false)
+        //        .where(cb.equal(root.get("id"), id), cb.equal(root.get("completed"), true));
+        query.set(root.get(Todo_.completed), false)
+                .where(cb.equal(root.get(Todo_.id), id), cb.equal(root.get(Todo_.completed), true));
 
         // perform query
         this.entityManager.createQuery(query).executeUpdate();

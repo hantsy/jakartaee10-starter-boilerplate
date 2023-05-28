@@ -1,7 +1,7 @@
 package com.example.web;
 
 import com.example.domain.Todo;
-import com.example.repository.TodoRepository;
+import com.example.ejb.EjbTodoRepository;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jdk.jfr.Name;
@@ -14,7 +14,7 @@ import java.util.List;
 public class TodoList implements Serializable {
 
     @Inject
-    TodoRepository todoRepository;
+    EjbTodoRepository todoRepository;
 
     List<Todo> todos;
 

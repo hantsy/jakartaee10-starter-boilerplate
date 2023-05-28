@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.cdi;
 
 import com.example.domain.Persistable;
 import jakarta.persistence.EntityManager;
@@ -16,11 +16,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class EntityRepository<E extends Persistable<ID>, ID extends Serializable> {
-    abstract EntityManager getEntityManager();
+public interface CrudRepository<E extends Persistable<ID>, ID extends Serializable> {
+    EntityManager entityManager();
 
-    private Class<E> entityClass;
-    public EntityRepository() {
+    private Class<E> entityClass() {
         Type genericSuperClass = getClass().getGenericSuperclass();
 
         ParameterizedType parametrizedType = null;
@@ -32,23 +31,23 @@ public abstract class EntityRepository<E extends Persistable<ID>, ID extends Ser
             }
         }
 
-        this.entityClass = (Class<E>) parametrizedType.getActualTypeArguments()[0];
+        return  (Class<E>) parametrizedType.getActualTypeArguments()[0];
     }
 
-    public List<E> findAll() {
-        CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+    default List<E> findAll() {
+        CriteriaBuilder cb = this.entityManager().getCriteriaBuilder();
         // create query
-        CriteriaQuery<E> query = cb.createQuery(this.entityClass);
+        CriteriaQuery<E> query = cb.createQuery(this.entityClass());
         // set the root class
-        Root<E> root = query.from(this.entityClass);
+        Root<E> root = query.from(this.entityClass());
         //perform query
-        return this.getEntityManager().createQuery(query).getResultList();
+        return this.entityManager().createQuery(query).getResultList();
     }
 
-    public E findById(ID id) {
+    default E findById(ID id) {
         E entity = null;
         try {
-            entity = this.getEntityManager().find(this.entityClass, id);
+            entity = this.entityManager().find(this.entityClass(), id);
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -56,10 +55,10 @@ public abstract class EntityRepository<E extends Persistable<ID>, ID extends Ser
     }
 
 
-    public Optional<E> findOptionalById(ID id) {
+    default Optional<E> findOptionalById(ID id) {
         E entity = null;
         try {
-            entity = this.getEntityManager().find(this.entityClass, id);
+            entity = this.entityManager().find(this.entityClass(), id);
         } catch (NoResultException e) {
             e.printStackTrace();
         }
@@ -67,35 +66,35 @@ public abstract class EntityRepository<E extends Persistable<ID>, ID extends Ser
     }
 
     @Transactional
-    public E save(E entity) {
+    default E save(E entity) {
         if (entity.getId() != null) {
-            return this.getEntityManager().merge(entity);
+            return this.entityManager().merge(entity);
         } else {
-            this.getEntityManager().persist(entity);
+            this.entityManager().persist(entity);
             return entity;
         }
     }
 
     @Transactional
-    public void saveAll(Collection<E> entities) {
+    default void saveAll(Collection<E> entities) {
         entities.forEach(this::save);
     }
 
     @Transactional
-    public void deleteById(ID id) {
+    default void deleteById(ID id) {
         E entity = this.findById(id);
-        this.getEntityManager().remove(entity);
+        this.entityManager().remove(entity);
     }
 
     @Transactional
-    public void deleteAll() {
-        CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+    default void deleteAll() {
+        CriteriaBuilder cb = this.entityManager().getCriteriaBuilder();
         // create query for deletion
-        CriteriaDelete<E> query = cb.createCriteriaDelete(this.entityClass);
+        CriteriaDelete<E> query = cb.createCriteriaDelete(this.entityClass());
         // set the root class
-        Root<E> root = query.from(this.entityClass);
+        Root<E> root = query.from(this.entityClass());
         //perform query
-        this.getEntityManager().createQuery(query).executeUpdate();
+        this.entityManager().createQuery(query).executeUpdate();
     }
 
 }
