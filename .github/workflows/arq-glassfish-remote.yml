@@ -26,7 +26,7 @@ jobs:
           cache: maven
       - name: Run Glassfish Server
         run: |    
-          export GLASSFISH_ARCHIVE=glassfish6
+          export GLASSFISH_ARCHIVE=glassfish7
           export GLASSFISH_VERSION=7.0.5
           export INSTALL_DIR="/opt/appsvr"
           mkdir ${INSTALL_DIR}
