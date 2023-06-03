@@ -17,18 +17,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'zulu'
-        cache: maven
-    - name: Build with Maven
-      run: |
-        docker compose up glassfish -d
-        sleep 10 
-        docker ps -a
-        mvn -B -q clean verify -Parq-glassfish-remote
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          cache: maven
+      - name: Run Glassfish Server
+        run: |    
+          export GLASSFISH_ARCHIVE=glassfish6
+          export GLASSFISH_VERSION=7.0.5
+          export INSTALL_DIR="/opt/appsvr"
+          mkdir ${INSTALL_DIR}
+          
+          curl -o /tmp/${GLASSFISH_ARCHIVE}.zip -L https://github.com/eclipse-ee4j/glassfish/releases/download/${GLASSFISH_VERSION}/glassfish-${GLASSFISH_VERSION}.zip \
+              && unzip /tmp/${GLASSFISH_ARCHIVE}.zip -d ${INSTALL_DIR} \
+              && rm /tmp/${GLASSFISH_ARCHIVE}.zip \
+              && true
+          
+          chmod -R a+rw ${INSTALL_DIR}
+          chmod -R a+x ${INSTALL_DIR}/${GLASSFISH_ARCHIVE}/bin/*
+          export PATH=$PATH:${INSTALL_DIR}/${GLASSFISH_ARCHIVE}/bin/
+          asadmin start-domain domain1 && true
+          #          echo "set AS_ADMIN_PASSWORD=adminadmin" \
+          #              && echo "AS_ADMIN_PASSWORD=\nAS_ADMIN_NEWPASSWORD=adminadmin" > /tmp/new_passwordfile \
+          #              && echo "AS_ADMIN_PASSWORD=adminadmin" > /tmp/passwordfile \
+          #              && cat /tmp/new_passwordfile && cat /tmp/passwordfile \
+          #          	  && asadmin --passwordfile /tmp/new_passwordfile change-admin-password --domain_name domain1 \
+          #          	  && asadmin --passwordfile /tmp/passwordfile start-domain domain1 \
+          #          	  && true
+          #
+      - name: Build with Maven
+        run: |
+          mvn -B -q clean verify -Parq-glassfish-remote
       
   
