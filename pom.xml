@@ -880,6 +880,7 @@
                                 <!--
                                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager> -->
                             </systemPropertyVariables>
+                            <argLine>--add-opens java.base/java.io=ALL-UNNAMED</argLine>
                         </configuration>
                     </plugin>
                 </plugins>
