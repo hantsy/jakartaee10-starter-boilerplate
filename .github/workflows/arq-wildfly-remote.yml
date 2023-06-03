@@ -1,4 +1,4 @@
-name: it-with-arq-wildfly-remote
+name: arq-wildfly-remote
 
 on:
   push:
@@ -26,12 +26,12 @@ jobs:
           cache: "maven"
       - name: Run WildFly server
         run: |
-          export WF_ARCHIVE=wildfly-preview
+          export WF_ARCHIVE=wildflys
           export WF_VERSION=28.0.0.Final
           export INSTALL_DIR="/opt/appsvr"
           mkdir ${INSTALL_DIR}
 
-          curl -o /tmp/${WF_ARCHIVE}.zip -L https://github.com/wildfly/wildfly/releases/download/${WF_VERSION}/wildfly-preview-${WF_VERSION}.zip \
+          curl -o /tmp/${WF_ARCHIVE}.zip -L https://github.com/wildfly/wildfly/releases/download/${WF_VERSION}/wildfly-${WF_VERSION}.zip \
               && unzip /tmp/${WF_ARCHIVE}.zip -d ${INSTALL_DIR} \
               && rm /tmp/${WF_ARCHIVE}.zip \
               && true
