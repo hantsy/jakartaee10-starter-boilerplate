@@ -40,6 +40,7 @@ jobs:
           
           export DB_VERSION="10.14.2.0"
           mkdir -p ${INSTALL_DIR}/wlp/usr/shared/resources
+          chmod -R a+rxw ${INSTALL_DIR}/wlp/usr/shared/resources
           curl -o ${INSTALL_DIR}/wlp/usr/shared/resources/derby.jar -L https://repo1.maven.org/maven2/org/apache/derby/derby/${DB_VERSION}/derby-${DB_VERSION}.jar
           chmod a+rx ${INSTALL_DIR}/wlp/usr/shared/resources/derby.jar
           
