@@ -276,6 +276,9 @@
                     <plugin>
                         <groupId>io.openliberty.tools</groupId>
                         <artifactId>liberty-maven-plugin</artifactId>
+                        <configuration>
+                            <embedded>true</embedded>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
