@@ -15,6 +15,7 @@
             <property name="password">admin</property>
             <property name="httpPort">9080</property>
             <property name="httpsPort">9443</property>
+            <property name="appDeployTimeout">120</property>
         </configuration>
     </container>
 
