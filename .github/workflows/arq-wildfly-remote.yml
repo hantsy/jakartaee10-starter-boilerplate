@@ -39,6 +39,7 @@ jobs:
           chmod -R a+rw ${INSTALL_DIR}
           chmod -R a+x ${INSTALL_DIR}/${WF_ARCHIVE}-${WF_VERSION}/bin/*
           export WF_HOME=${INSTALL_DIR}/${WF_ARCHIVE}-${WF_VERSION}
+          export JAVA_OPTS="${JAVA_OPTS} --add-opens java.base/java.io=ALL-UNNAMED"
           ${WF_HOME}/bin/add-user.sh admin Admin@123 --silent
           ${WF_HOME}/bin/standalone.sh -c standalone-full.xml &
           sleep 10
