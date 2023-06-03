@@ -1,0 +1,58 @@
+name: arq-liberty-remote
+
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+          cache: "maven"
+      - name: Run OpenLiberty server
+        run: |
+          export OL_VERSION="23.0.0.4"
+          export INSTALL_DIR="/opt/appsvr"
+          mkdir ${INSTALL_DIR}
+
+          curl -o /tmp/ol.zip -L https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/release/${OL_VERSION}/openliberty-${OL_VERSION}.zip \
+              && unzip /tmp/ol.zip -d ${INSTALL_DIR} \
+              && rm /tmp/ol.zip \
+              && true
+
+          chmod -R a+rw ${INSTALL_DIR}
+          chmod -R a+x ${INSTALL_DIR}/wlp/bin/*
+          
+          export DB_VERSION="10.14.2.0"
+          curl -o ${INSTALL_DIR}/wlp/usr/shared/resources/derby.jar -L https://repo1.maven.org/maven2/org/apache/derby/derby/${DB_VERSION}/derby-${DB_VERSION}.jar
+          chmod a+rx ${INSTALL_DIR}/wlp/usr/shared/resources/derby.jar
+          
+          ${INSTALL_DIR}/wlp/bin/server create testServer
+          cp ./src/test/arq-liberty-remote/server.xml ${INSTALL_DIR}/wlp/usr/servers/testServer/
+          ${INSTALL_DIR}/wlp/bin/server start testServer
+          sleep 10
+          echo password|keytool -export -alias default -file testwlp.crt -keystore ${INSTALL_DIR}/wlp/usr/servers/testServer/resources/security/key.jks
+          if [ -z "${JAVA_HOME}" ]; then
+            JAVA_CMD = `which java`
+            JAVA_HOME = `dirname $JAVA_CMD`/..
+          fi
+          echo "JAVA_HOME: $JAVA_HOME"
+          keytool -import -trustcacerts -keystore ${JAVA_HOME}/lib/security/cacerts -storepass changeit -alias testwlp -file testwlp.crt -noprompt
+
+      - name: Build with Maven
+        run: mvn clean verify -Parq-liberty-remote
