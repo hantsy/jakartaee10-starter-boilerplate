@@ -3,7 +3,7 @@
 # Define the services/containers to be run
 services:
 
-  payara:
+  glassfish:
     image: omnifish/glassfish:7.0.4
     ports:
       - "8080:8080"
@@ -37,4 +37,5 @@ services:
     #    command: configure.sh # use for open-liberty:kernel image.
     #    environment:
     volumes:
+      - ./src/main/liberty/config/server.xml:/config/server.xml
       - ./deployments:/config/apps

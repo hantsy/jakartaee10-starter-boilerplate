@@ -26,6 +26,9 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
+        docker compose up glassfish
+        sleep 10 
+        docker ps -a
         mvn -B -q clean verify -Parq-glassfish-remote
       
   
