@@ -25,7 +25,7 @@ jobs:
           distribution: 'zulu'
           cache: maven
       - name: Run Glassfish Server
-        run: |    
+        run: |
           export GLASSFISH_ARCHIVE=glassfish7
           export GLASSFISH_VERSION=7.0.5
           export INSTALL_DIR="/opt/appsvr"
@@ -39,7 +39,9 @@ jobs:
           chmod -R a+rw ${INSTALL_DIR}
           chmod -R a+x ${INSTALL_DIR}/${GLASSFISH_ARCHIVE}/bin/*
           export PATH=$PATH:${INSTALL_DIR}/${GLASSFISH_ARCHIVE}/bin/
-          asadmin start-domain domain1 && true
+          asadmin start-database \
+            && asadmin start-domain domain1 \
+            && true
           #          echo "set AS_ADMIN_PASSWORD=adminadmin" \
           #              && echo "AS_ADMIN_PASSWORD=\nAS_ADMIN_NEWPASSWORD=adminadmin" > /tmp/new_passwordfile \
           #              && echo "AS_ADMIN_PASSWORD=adminadmin" > /tmp/passwordfile \
