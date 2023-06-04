@@ -4,7 +4,7 @@ In the past years, I have maintained several starter boilerplate projects for Ja
 
 * [Jakarta EE 8 Starter Boilerplate](https://github.com/hantsy/jakartaee8-starter-boilerplate)
 * [Jakarta EE 9 Starter Boilerplate](https://github.com/hantsy/jakartaee9-starter-boilerplate) 
-* [Jakarta EE 9 Servlet Starter Boilerplate](https://github.com/hantsy/jakartaee9-servlet-starter-boilerplate)(only for Servlet). 
+* [Jakarta EE 9 Servlet Starter Boilerplate](https://github.com/hantsy/jakartaee9-servlet-starter-boilerplate)(only for Servlet containers, such as Jetty, Apache Tomcat). 
 
 Jakarta EE 10 was release for a few months, the most popular application servers, such as GlassFish v7, WildFly 27/28.x, OpenLiberty 23.0.0.4, etc. have been aligned with the newest Jakarta EE 10 specification. I think it is time to update the existing [Jakarta EE 9 Starter Boilerplate](https://github.com/hantsy/jakartaee9-starter-boilerplate), and provide a small update for Jakarta EE 10.
 
