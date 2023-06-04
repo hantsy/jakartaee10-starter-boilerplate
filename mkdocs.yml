@@ -52,3 +52,4 @@ nav:
   - Getting Started:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md
+    - "Exploring Project Structure": gs/explore.md

@@ -1,6 +1,8 @@
 # Prerequisites
 
-To explore and run the sample codes provided in the starter boilerplate, I assume you have installed the following software.
+To start development work, you have to prepare the development environment firstly. 
+
+I assume you have installed the following software.
 
 ## Git
 
@@ -8,7 +10,7 @@ Install [Git](https://git-scm.com/) and Git GUI tools, such as TortoiseGit, GitH
 
 Optionally install [Github CLI](https://cli.github.com/) if you prefer using command/shell instead of the GUI tools.
 
-# JDK 17
+## JDK 17
 
 Although Jakarta EE 10 uses Java 11 as baseline, and also supports Java 17. But it is recommended to use to the latest LTS version as possible when you are starting a new project.
 
@@ -27,12 +29,19 @@ My preferred is Temurin, it is envoved from the former AdoptOpenJDK which is a 1
 
 ## Apache Maven 
 
-Install the latest [Apache Maven](https://maven.apache.org), make sure you have added *MAVEN_INSTALLDIR/bin* to the system PATH environment variable.
+Download the latest [Apache Maven](https://maven.apache.org), extrac the files to you local machine.
 
-## Java Editor or IDE 
+Add a new environment variable `MAVEN_HOME`, the value is the maven installation location.
 
-Choose your favorite editors and IDE when starting codes.
+Also append *%MAVEN_HOME%/bin* to your system PATH environment variable.
 
-* [VSCdoe](https://code.visualstudio.com/docs/languages/java), do not forget to install Java code pack.
+## An Editor or IDE 
+
+A great editor or IDE will speed up your development productivity. Choose your favorite one from the following list.
+
+* [Visual Studio Cdoe](https://code.visualstudio.com) and [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
 * [Intellij IDEA Communitiy Edition](https://www.jetbrains.com/idea/download/)(free)
 * [Apache NetBeans](http://netbeans.apache.org)
+* [Eclipse IDE for Java EE Developers](https://www.eclipse.org/downloads/packages/release/kepler/sr2/eclipse-ide-java-ee-developers)
+
+My preferred IDE is IntelliJ IDEA.
