@@ -17,12 +17,12 @@ Import the source codes into IDE, the following file structure is the project im
 
 ![idea-structure](./idea1.png)
 
-Under the *main/src/java*, in the package `com.example.demo`, it contains several subpackages.
+Under the *main/src/java* folder, expand the package `com.example.demo`, it contains several subpackages.
 
-* `ejb` is an example of Stateless EJB to perform database CRUD. NOTE: EJB is be deprecated in the further Jakarta EE versions.
+* `ejb` is an example of Stateless EJB to perform database CRUD operations. *NOTE: EJB is be deprecated in the further Jakarta EE*.
 * `cdi` is to replace the `ejb` functionality, the codes are rewritten in regular CDI beans.
 * `domain` contains a simple `ToDo` JPA Entity and some helper classes.
-* `web` includes Faces backing beans.
+* `web` includes Faces backing beans example.
 * `rest` includes Restful API example.
 * `jms` contains a simple JMS example.
 
