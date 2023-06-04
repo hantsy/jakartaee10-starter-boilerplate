@@ -1,6 +1,6 @@
 # Exploring Project Structure
 
-The [Jakarta EE 10 Starter Boilerplate](https://github.com/hantsy/jakartaee10-starter-boilerplate) contains a colletion of example codes to demonstrate the basic of Jakarta EE specifications, such as JPA, JMS, CDI, EJB, Restful APIs, Faces, etc. 
+The [Jakarta EE 10 Starter Boilerplate](https://github.com/hantsy/jakartaee10-starter-boilerplate) contains a collection of example codes to demonstrate the basic of Jakarta EE specifications, such as JPA, JMS, CDI, EJB, Restful APIs, Faces, etc. 
 
 
 ## Clone Project Codes
@@ -21,7 +21,7 @@ Under the *main/src/java* folder, expand the package `com.example.demo`, it cont
 
 * `ejb` is an example of Stateless EJB to perform database CRUD operations. *NOTE: EJB is be deprecated in the further Jakarta EE*.
 * `cdi` is to replace the `ejb` functionality, the codes are rewritten in regular CDI beans.
-* `domain` contains a simple `ToDo` JPA Entity and some helper classes.
+* `domain` contains a simple `Todo` JPA Entity and some helper classes.
 * `web` includes Faces backing beans example.
 * `rest` includes Restful API example.
 * `jms` contains a simple JMS example.
