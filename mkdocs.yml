@@ -53,3 +53,10 @@ nav:
     - gs/index.md
     - Prerequisites: gs/prerequisites.md
     - "Exploring Project Structure": gs/explore.md
+  - Build and Run:
+    - build/index.md
+  - Testing: 
+    - test/index.md
+  - Put to Cloud:
+    - cloud/index.md  
+
