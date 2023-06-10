@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Todo extends AbstractEntity<UUID> {
     private String title;
 
-    private Boolean completed = Boolean.FALSE;
+    private boolean completed = false;
 
     public String getTitle() {
         return title;
@@ -21,11 +21,11 @@ public class Todo extends AbstractEntity<UUID> {
         this.title = title;
     }
 
-    public Boolean getCompleted() {
+    public boolean isCompleted() {
         return completed;
     }
 
-    public void setCompleted(Boolean completed) {
+    public void setCompleted(boolean completed) {
         this.completed = completed;
     }
 

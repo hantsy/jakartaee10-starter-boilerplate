@@ -65,14 +65,31 @@ In the docs of [Jakarta EE 9 starter boilerplate](https://github.com/hantsy/jaka
 
 In this Jakarta EE 10 Starter Boilerplate, it only includes configuration for deploying application on local managed servers which is every common in the development stage.
 
+### GlassFish
+
 For example, run the following command to build the project and deploy application on a GlassFish server.
 
 ```bash 
 mvn clean package cargo:run -Pglassfish
+...
+[INFO]
+[INFO] --- cargo:1.10.7:run (default-cli) @ demo ---
+[INFO] [en3.ContainerRunMojo] Resolved container artifact org.codehaus.cargo:cargo-core-container-glassfish:jar:1.10.7 for container glassfish7x
+[INFO] [talledLocalContainer] Parsed GlassFish version = [7.0.4]
+[INFO] [talledLocalContainer] GlassFish 7.0.4 starting...
+[INFO] [talledLocalContainer] Attempting to start cargo-domain.... Please look at the server log for more details.....
+[INFO] [talledLocalContainer] GlassFish 7.0.4 started on port [8080]
+[INFO] Press Ctrl-C to stop the container...
+```
+Open another terminal window, use `curl` to verify the Todo Restful API example.
+
+```bash
+# curl http://localhost:8080/demo/api/todos
+[{"id":"c34b0111-f4af-46b6-9749-acf4eba8077e","completed":false,"title":"Say Hello to Jakarta EE 10"}]
 ```
 
-
-## WildFly
+More details of deploying Jakarta EE applications on GlassFish, check [Deploying to GlassFish v6.0 using Cargo maven plugin](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-cargo.md) and [Remote Deployment to GlassFish v6.0 using Cargo local deployer](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-cargo-gf6.md).
+### WildFly
 
 [WildFly](https://www.wildfly.org) project itself provides a great maven plugin to deploy Jakarta EE application to an embedded server, an existing server, or a running server.
 
@@ -82,11 +99,17 @@ Run the following command to deploy the application to a WildFly server.
 mvn clean wildfly:run -Pwildfly
 ```
 
-## OpenLiberty 
+More details of deploying to WildFly server, check [Deploying to WildFly](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-wildfly.md) and [Deploying with WildFly Bootable Jar](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-wildfly-bootable.md).
+### OpenLiberty 
 
-Simply run the following command to run the application on an OpenLiberty server.
+Simply run the following command to run the application on a local managed OpenLiberty server.
 
 
 ```bash 
 mvn clean liberty:run -Popenliberty
 ```
+
+More details of deploying to OpenLiberty, check [Deploying to OpenLiberty](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-openliberty.md).
+
+## Testing 
+

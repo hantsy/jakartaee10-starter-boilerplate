@@ -12,22 +12,31 @@ import jakarta.transaction.Transactional;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public interface CrudRepository<E extends Persistable<ID>, ID extends Serializable> {
+    final static Logger LOGGER = Logger.getLogger(CrudRepository.class.getName());
     EntityManager entityManager();
 
     private Class<E> entityClass() {
-        Type genericSuperClass = getClass().getGenericSuperclass();
-
+        LOGGER.log(Level.INFO, "super classes:{0}", getClass().getGenericSuperclass().getTypeName() );
+        LOGGER.log(Level.INFO, "super interfaces:{0}", Arrays.stream(getClass().getGenericInterfaces()).map(Type::getTypeName).toArray());
+        LOGGER.log(Level.INFO, "super class/generic supper class:{0}", getClass().getSuperclass().getGenericSuperclass().getTypeName());
+        LOGGER.log(Level.INFO, "super /generic interface:{0}", getClass().getSuperclass().getGenericInterfaces()[0].getTypeName());
+        // getClass() -> proxy class of CdiTodoRepository.
+        // getClass().getSuperClass() -> CdiTodoRepository.class
+        Type genericSuperClass = getClass().getSuperclass().getGenericInterfaces()[0];
         ParameterizedType parametrizedType = null;
         while (parametrizedType == null) {
-            if ((genericSuperClass instanceof ParameterizedType)) {
+            if (genericSuperClass instanceof ParameterizedType) {
                 parametrizedType = (ParameterizedType) genericSuperClass;
             } else {
-                genericSuperClass = ((Class<?>) genericSuperClass).getGenericSuperclass();
+                genericSuperClass = ((Class<?>) genericSuperClass).getGenericInterfaces()[0];
             }
         }
 

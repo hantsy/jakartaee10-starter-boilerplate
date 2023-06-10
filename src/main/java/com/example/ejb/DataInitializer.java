@@ -18,9 +18,14 @@ public class DataInitializer {
     EjbTodoRepository todoRepository;
 
     @PostConstruct
-    public void init(){
-       LOG.log(Level.SEVERE, "initializing sample data");
-       todoRepository.deleteAll();
-       todoRepository.saveAll(List.of(Todo.of("Say Hello to Jakarta EE 10")));
+    public void init() {
+        LOG.log(Level.SEVERE, "initializing sample data");
+        todoRepository.deleteAll();
+        todoRepository.saveAll(
+                List.of(
+                        Todo.of("Say Hello to Jakarta EE 10"),
+                        Todo.of("Upgrade to Jakarta EE 10")
+                )
+        );
     }
 }

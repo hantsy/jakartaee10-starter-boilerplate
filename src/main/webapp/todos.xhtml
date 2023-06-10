@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                xmlns:h="jakarta.faces.html"
+                xmlns:jsf="jakarta.faces"
+                template="/WEB-INF/layout/template.xhtml">
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewAction action="#{todoList.init()}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="pageTitle"> TODO LIST</ui:define>
+    <ui:define name="content">
+        <h:form id="form" role="form" syleClass="form" prependId="false">
+            <div class="row g-3 mb-3">
+                <div class="col-auto">
+                    <input type="text" 
+                           class="form-control #{not empty facesContext.getMessageList('form:name')?'is-invalid':''}"
+                           jsf:id="title"
+                           jsf:required="true"
+                           jsf:requiredMessage="Todo title is required."
+                           jsf:value="#{todoList.form.title}"></input>
+                    <small class="invalid-feedback">
+                        <h:message for="title" showDetail="false" showSummary="true"/>
+                    </small>   
+                </div>
+                <div class="col-auto">
+                    <input jsf:id="todoId" type="hidden" jsf:required="false" jsf:value="#{todoList.form.id}">
+                        <f:converter converterId="uuidConverter" />
+                    </input>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-large btn-primary mb-3" jsf:id="saveTodo" jsf:action="#{todoList.saveTodo()}">
+                        <f:ajax execute="@form" render="@form"/>
+                        Save
+                    </button>
+                </div>
+            </div>
+
+            <!-- List group -->
+            <ui:fragment rendered="#{not empty todoList.todos}">
+                <ul id="todotasks" class="list-group list-group-flush">
+                    <ui:repeat var="todo" value="#{todoList.todos}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="#{todo.completed?'completed':''}"> #{todo.title}                          
+                            </span> 
+                            <span>
+                                <a jsf:immediate="true" jsf:action="#{todoList.editTodo(todo.id)}"> 
+                                    <f:ajax execute="@this" render="@form"/>
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>   
+                                <a jsf:immediate="true" jsf:action="#{todoList.deleteTodo(todo.id)}">
+                                    <f:ajax execute="@this" render="@form"/>
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </span>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </ui:fragment>
+        </h:form>
+    </ui:define>
+</ui:composition>
