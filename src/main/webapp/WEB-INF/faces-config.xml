@@ -4,7 +4,7 @@
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
               version="4.0">
     <factory>
-<!--        <exception-handler-factory>com.example.web.DefaultExceptionHandlerFactory</exception-handler-factory>-->
+        <exception-handler-factory>com.example.web.DefaultExceptionHandlerFactory</exception-handler-factory>
     </factory>
 
     <application>
@@ -19,7 +19,7 @@
     </application>
 
     <lifecycle>
-<!--        <phase-listener>com.example.web.MessageHandler</phase-listener>
-        <phase-listener>com.example.web.RequestLoggingPhaseListener</phase-listener>-->
+        <phase-listener>com.example.web.MessageHandler</phase-listener>
+<!--        <phase-listener>com.example.web.RequestLoggingPhaseListener</phase-listener>-->
     </lifecycle>
 </faces-config>

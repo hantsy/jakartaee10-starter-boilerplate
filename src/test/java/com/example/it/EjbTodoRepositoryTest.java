@@ -71,10 +71,17 @@ public class EjbTodoRepositoryTest {
         var saved = todos.save(todo);
         utx.commit();
 
+        assertEquals("test", saved.getTitle());
+
         dbUtil.assertCount("todos", 1);
+
+        var todoGetById = todos.findById(saved.getId());
+        assertNotNull(todoGetById);
+        assertEquals("test", todoGetById.getTitle());
+
         var getById = entityManager.find(Todo.class, saved.getId());
         assertNotNull(getById);
-        assertEquals("test", saved.getTitle());
+        assertEquals("test", getById.getTitle());
     }
 
 }
