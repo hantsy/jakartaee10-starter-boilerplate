@@ -1,6 +1,5 @@
 package com.example.it;
 
-
 import com.example.domain.Todo;
 import com.example.ejb.EjbTodoRepository;
 import com.example.ejb.EntityRepository;
@@ -25,7 +24,6 @@ import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 
 @ExtendWith(ArquillianExtension.class)
 public class EjbTodoRepositoryTest {
@@ -78,10 +76,22 @@ public class EjbTodoRepositoryTest {
         var todoGetById = todos.findById(saved.getId());
         assertNotNull(todoGetById);
         assertEquals("test", todoGetById.getTitle());
+    }
+
+    @Test
+    public void testNewTodo2() throws Exception {
+        utx.begin();
+        LOGGER.log(Level.INFO, "new todo2 ... ");
+        Todo todo = Todo.of("test");
+        var saved = todos.save(todo);
+        utx.commit();
+
+        assertEquals("test", saved.getTitle());
+
+        dbUtil.assertCount("todos", 1);
 
         var getById = entityManager.find(Todo.class, saved.getId());
         assertNotNull(getById);
         assertEquals("test", getById.getTitle());
     }
-
 }
