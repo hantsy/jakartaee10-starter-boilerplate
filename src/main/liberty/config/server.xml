@@ -31,9 +31,7 @@
                   httpsPort="9443" />
 
     <!-- Automatically expand WAR files and EAR files -->
-    <applicationManager autoExpand="true"/>
-
-    <applicationMonitor updateTrigger="mbean"/>
+    <applicationManager updateTrigger="mbean"  autoExpand="true"/>
 
     <!-- Configures the application on a specified context root -->
     <!-- <webApplication contextRoot="/demo" location="demo.war" /> -->
