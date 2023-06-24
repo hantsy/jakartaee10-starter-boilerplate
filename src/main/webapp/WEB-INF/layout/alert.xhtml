@@ -3,8 +3,8 @@
     <ui:fragment rendered="#{not facesContext.validationFailed and not empty facesContext.messageList}">
 
         <ui:repeat var="message" value="#{facesContext.messageList}">
-            <div class="my-2 alert #{message.severity.ordinal==0?'alert-success':(message.severity.ordinal==1?'alert-warning':'alert-danger')}" role="alert">
-                #{message.summary}
+            <div class="my-2 alert #{message.severity.ordinal==0?'alert-success':(message.severity.ordinal==1?'alert-warning':'alert-danger')} alert-dismissible fade show" role="alert">
+                <div>#{message.summary}</div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </ui:repeat>
