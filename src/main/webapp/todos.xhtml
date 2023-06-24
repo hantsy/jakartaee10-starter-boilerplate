@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-large btn-primary mb-3" jsf:id="saveTodo" jsf:action="#{todoList.saveTodo()}">
-                        <f:ajax execute="@form" render="@form"/>
+                        <f:ajax execute="@form" render="@all"/>
                         Save
                     </button>
                 </div>
@@ -50,13 +50,16 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </a>   
                                 <a jsf:immediate="true" jsf:action="#{todoList.deleteTodo(todo.id)}">
-                                    <f:ajax execute="@this" render="@form"/>
+                                    <f:ajax execute="@this" render="@all"/>
                                     <i class="bi bi-trash"></i>
                                 </a>
                             </span>
                         </li>
                     </ui:repeat>
                 </ul>
+            </ui:fragment>
+            <ui:fragment rendered="#{empty todoList.todos}">
+                <p class="m-5">No TODO items found</p>
             </ui:fragment>
         </h:form>
     </ui:define>
