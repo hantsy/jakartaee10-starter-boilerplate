@@ -1,4 +1,4 @@
-package com.example;
+package com.example.web;
 
 import java.util.logging.Logger;
 import jakarta.enterprise.context.Dependent;
