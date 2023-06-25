@@ -1,4 +1,4 @@
-# A Quick Guide to Kickstart a Jakarta EE 10 Application
+# Kickstart a Jakarta EE 10 Application
 
 In the past years, I have maintained several starter boilerplate projects for Jakarta EE developers, including:
 
@@ -88,6 +88,38 @@ Open another terminal window, use `curl` to verify the Todo Restful API example.
 [{"id":"c34b0111-f4af-46b6-9749-acf4eba8077e","completed":false,"title":"Say Hello to Jakarta EE 10"}]
 ```
 
+Open a web browser, and navigate to http://localhost:9080/demo to experience the Jakarta Faces Todo List example.
+
+![Todo](./faces-todo.png)
+
+
+There is an endpoint used to verify JMS functionality, execute the following command.
+
+```bash
+# curl http://localhost:8080/demo/api/hellojms
+sent
+```
+
+Open the *server.log* file, you will see the following information.
+
+```bash
+[2023-06-25T10:33:58.840509+08:00] [GF 7.0.5] [INFO] [] [com.example.jms.HelloJmsResource] [tid: _ThreadID=30 _ThreadName=http-listener-1(1)] [levelValue: 800] [[
+  sayHello from HelloJmsResource]]
+
+[2023-06-25T10:33:58.858512+08:00] [GF 7.0.5] [INFO] [] [com.example.jms.HelloSender] [tid: _ThreadID=30 _ThreadName=http-listener-1(1)] [levelValue: 800] [[
+  sending message from HelloSender: Hello JMS at 2023-06-25T02:33:58.858512Z]]
+
+[2023-06-25T10:33:58.865510+08:00] [GF 7.0.5] [WARNING] [] [jakarta.enterprise.resource.resourceadapter.com.sun.enterprise.connectors.service] [tid: _ThreadID=30 _ThreadName=http-listener-1(1)] [levelValue: 900] [[
+  Probably the pool org.glassfish.resourcebase.resources.api.PoolInfo@29ad8a07[jndiName=jms/__defaultConnectionFactory-Connection-Pool, applicationName=null, moduleName=null] is not yet initialized (lazy-loading), trying to check ...]]
+
+[2023-06-25T10:33:58.902509+08:00] [GF 7.0.5] [INFO] [] [jakarta.enterprise.resource.resourceadapter.com.sun.enterprise.resource.pool] [tid: _ThreadID=30 _ThreadName=http-listener-1(1)] [levelValue: 800] [[
+  Created connection pool and added it to PoolManager: Pool [org.glassfish.resourcebase.resources.api.PoolInfo@29ad8a07[jndiName=jms/__defaultConnectionFactory-Connection-Pool, applicationName=null, moduleName=null]] PoolSize=0  FreeResources=0  QueueSize=0 matching=on validation=off]]
+
+[2023-06-25T10:34:03.811980+08:00] [GF 7.0.5] [INFO] [] [com.example.jms.HelloConsumer] [tid: _ThreadID=122 _ThreadName=p: thread-pool-1; w: 4] [levelValue: 800] [[
+  received message: Hello JMS at 2023-06-25T02:33:58.858512Z]]
+```
+
+
 More details of deploying Jakarta EE applications on GlassFish, check [Deploying to GlassFish v6.0 using Cargo maven plugin](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-cargo.md) and [Remote Deployment to GlassFish v6.0 using Cargo local deployer](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-cargo-gf6.md).
 ### WildFly
 
@@ -106,10 +138,96 @@ Simply run the following command to run the application on a local managed OpenL
 
 
 ```bash 
-mvn clean liberty:run -Popenliberty
+mvn clean package liberty:dev -Popenliberty
 ```
+
+The `liberty:dev` will redirect the background server log to the frontend console, it is easier to debug application.
+
+> If you encountered an like [Detected JSESSIONID with invalid length; expected length of 23, found 49](https://github.com/OpenLiberty/open-liberty/issues/25554#issuecomment-1605517537), try to clear your browser cookie settings or add a HttpSession config fragment to the *server.xml* as [the comment](https://github.com/OpenLiberty/open-liberty/issues/25554#issuecomment-1605517537).
 
 More details of deploying to OpenLiberty, check [Deploying to OpenLiberty](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/deploy-openliberty.md).
 
 ## Testing 
 
+I have written a couple of posts to describe how to test Jakarta components with Arquillian container adapters before. 
+
+> If you are interested in the detailed configuration steps,  please go to the doc section of  [Jakarta EE 8 Starter Boilerplate](https://github.com/hantsy/jakartaee8-starter-boilerplate) and [Jakarta EE 9 Starter Boilerplate](https://github.com/hantsy/jakartaee9-starter-boilerplate). 
+
+In this new Jakarta EE 10 Starter Boilerplate project, I have ported the following Arquillian container adapters configuration with the latest application servers.
+
+* GlassFish Managed Container
+* GlassFish Remote Container
+* WildFly Managed Container
+* WildFly Remote Container
+* OpenLiberty Managed Container
+* OpenLiberty Remote Container
+
+### GlassFish Managed Container
+
+In this case,the test will manage the GlassFish container lifecycle, start, deploy, run test, undeploy, stop.
+
+Run the following command to run tests against a GlassFish managed container adapter.
+
+```bash 
+mvn clean verify -Parq-glassfish-managed
+```
+
+### GlassFish Remote Container
+
+Make sure there is a running GlassFish server.
+
+Run the following command to run tests against a GlassFish remote container adapter.
+
+```bash 
+mvn clean verify -Parq-glassfish-managed
+```
+
+### WildFly Managed Container
+
+Similarly run the following command to run tests against a WildFly managed container adapter.
+
+```bash 
+mvn clean verify -Parq-wildfly-managed
+```
+
+### GlassFish Remote Container
+
+Make sure there is a running WildFly server.
+
+Execute the following command to add an administrator user.
+
+```bash
+<WILDFLY_INSTALLDIR>/bin/add-user.sh admin Admin@123 --silent
+```
+
+Then run the following command to run tests against a WildFly remote container adapter.
+
+```bash 
+mvn clean verify -Parq-wildfly-managed
+```
+
+### OpenLiberty Managed Container
+
+There is a specific *test/arq-liberty-managed/server.xml* file prepared for the OpenLiberty managed container adapter. In the feature list, it adds extra `local-connector` and `usr:arquillian-support-jakarta-2.0` features for support connection to a local server.
+
+Similarly run the following command to run tests against a OpenLiberty managed container adapter.
+
+```bash 
+mvn clean verify -Parq-liberty-managed
+```
+
+### OpenLiberty Remote Container
+
+Similarly there is a *test/arq-liberty-remote/server.xml* file prepared for the OpenLiberty remote container adapter. In the feature list, add a `rest-connector` to support connection via REST protocol to a running server.
+
+In the server.xml file, we also enabled SSL support, but the OpenLiberty generated security certificates are not recognized by client(the JVM to run tests), we need to extract cert file from OpenLiberty, and import into the client Java security folder. The detailed steps, please refer the doc [Testing with Arquillian and OpenLiberty](https://github.com/hantsy/jakartaee9-starter-boilerplate/blob/master/docs/arq-openliberty.md).
+
+Make sure the OpenLiberty is running.
+
+Run the following command to run tests against an OpenLiberty remote container adapter.
+
+```bash
+mvn clean verify -Parq-liberty-remote
+```
+
+> There is an issue in the new Jakarta port of OpenLiberty Arquillian project, which causes the injection of `EntityManager` failed, more details please go to [liberty-arquillian#134](https://github.com/OpenLiberty/liberty-arquillian/issues/134).

@@ -1,19 +1,19 @@
 package com.example.web;
 
 import com.example.domain.TodoNotFoundException;
-
 import jakarta.faces.FacesException;
 import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.application.ViewExpiredException;
+import jakarta.faces.application.ViewHandler;
 import jakarta.faces.context.ExceptionHandler;
 import jakarta.faces.context.ExceptionHandlerWrapper;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ExceptionQueuedEvent;
 import jakarta.faces.event.ExceptionQueuedEventContext;
+
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jakarta.faces.application.ViewHandler;
 
 public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
@@ -25,15 +25,14 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
     @Override
     public void handle() throws FacesException {
-        LOG.log(Level.INFO, ">>>>>>>>invoking custom ExceptionHandlder...");
+        LOG.log(Level.INFO, "starting custom exception handling...");
         Iterator<ExceptionQueuedEvent> events = getUnhandledExceptionQueuedEvents().iterator();
 
         while (events.hasNext()) {
             ExceptionQueuedEvent event = events.next();
             ExceptionQueuedEventContext context = event.getContext();
             Throwable t = context.getException();
-            LOG.log(Level.INFO, "Exception@{0}", t.getClass().getName());
-            LOG.log(Level.INFO, "ExceptionHandlder began.");
+            LOG.log(Level.INFO, "Caught exception@{0}", t.getClass().getName());
             //t.printStackTrace();
             if (t instanceof ViewExpiredException) {
                 try {
@@ -51,7 +50,7 @@ public class DefaultExceptionHandler extends ExceptionHandlerWrapper {
 
             }
 
-            LOG.log(Level.INFO, "ExceptionHandlder end.");
+            LOG.log(Level.INFO, "exception handling is done...");
         }
         getWrapped().handle();
 
