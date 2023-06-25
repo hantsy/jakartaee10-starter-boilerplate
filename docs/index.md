@@ -231,3 +231,7 @@ mvn clean verify -Parq-liberty-remote
 ```
 
 > There is an issue in the new Jakarta port of OpenLiberty Arquillian project, which causes the injection of `EntityManager` failed, more details please go to [liberty-arquillian#134](https://github.com/OpenLiberty/liberty-arquillian/issues/134).
+
+## Summary 
+
+We have explored the project sample codes and introduced how to run the application on different application servers, also covered run Aquillian tests with varied container adapters. sNext, you can add your own codes as you expected.
