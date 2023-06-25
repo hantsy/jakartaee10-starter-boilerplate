@@ -41,7 +41,7 @@ git clone https://github.com/hantsy/jakartaee10-starter-boilerplate
 
 Import the source codes into IDE, such as IntelliJ IDEA, you will see the following file structure.
 
-![idea-structure](./idea1.png)
+![idea-structure](./idea.png)
 
 In contrast to [Jakarta EE 9 Starter Boilerplate](https://github.com/hantsy/jakartaee9-starter-boilerplate), the example codes are enriched. Beside simple CDI and Rest examples, I've added example codes to demonstrate JMS, EJB and JPA, etc.
 
