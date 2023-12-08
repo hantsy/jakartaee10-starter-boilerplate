@@ -7,6 +7,8 @@
         <feature>usr:arquillian-support-jakarta-2.1</feature>
         <feature>localConnector-1.0</feature>
     </featureManager>
+
+    <cdi emptyBeansXmlCDI3Compatibility="true"/>
     
     <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
     <httpEndpoint id="defaultHttpEndpoint"
