@@ -26,7 +26,7 @@ jobs:
           cache: "maven"
       - name: Run OpenLiberty server
         run: |
-          export OL_VERSION="23.0.0.5"
+          export OL_VERSION="23.0.0.11"
           export INSTALL_DIR="/opt/appsvr"
           mkdir ${INSTALL_DIR}
 
