@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
@@ -28,6 +28,9 @@
         <maven-failsafe-plugin.version>3.2.2</maven-failsafe-plugin.version>
         <maven-surefire-report-plugin.version>3.2.2</maven-surefire-report-plugin.version>
 
+        <!-- sonar report -->
+        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
         <cargo-maven3-plugin.version>1.10.11</cargo-maven3-plugin.version>
 
@@ -35,24 +38,21 @@
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
 
         <!-- Arquillian 1.7.0 adds Jakarta EE 9 and JUnit 5 support-->
-        <arquillian-bom.version>1.7.2.Final</arquillian-bom.version>
+        <arquillian-bom.version>1.8.0.Final</arquillian-bom.version>
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
 
         <!-- Test Utilities -->
-        <mockito.version>5.2.0</mockito.version>
+        <mockito.version>5.8.0</mockito.version>
         <json-path.version>2.7.0</json-path.version>
         <awaitility.version>4.2.0</awaitility.version>
         <hamcrest.version>2.2</hamcrest.version>
         <jsonassert.version>1.5.1</jsonassert.version>
         <assertj.version>3.24.2</assertj.version>
 
-        <!-- Jacoco code coverage report -->
-        <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
-
         <!-- Glassfish server -->
-        <glassfish.version>7.0.9</glassfish.version>
+        <glassfish.version>7.0.10</glassfish.version>
         <jersey.version>3.1.5</jersey.version>
-        <eclipselink.version>4.0.1</eclipselink.version>
+        <eclipselink.version>4.0.2</eclipselink.version>
         <arquillian-glassfish-jakarta.version>7.0.10</arquillian-glassfish-jakarta.version>
 
         <!-- Payara server -->
@@ -60,7 +60,7 @@
         <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
 
         <!-- Wildfly server -->
-        <wildfly.version>28.0.1.Final</wildfly.version>
+        <wildfly.version>30.0.1.Final</wildfly.version>
         <wildfly-maven-plugin.version>4.2.1.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
         <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
@@ -171,6 +171,11 @@
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
                     <version>${liberty-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -517,13 +522,21 @@
                                 <properties>
                                     <cargo.glassfish.domain.name>${glassfish.domainName}</cargo.glassfish.domain.name>
                                     <cargo.remote.timeout>600000</cargo.remote.timeout>
-                                    <cargo.remote.password />
+                                    <cargo.remote.password/>
                                 </properties>
                             </configuration>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>unit-test</id>
+            <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+                <skip.integration.tests>true</skip.integration.tests>
+            </properties>
         </profile>
         <!-- Glassfish/Payara remote deployment:
         see:https://codehaus-cargo.github.io/cargo/Remote+deployments+to+GlassFish+6.x+onwards+and+to+recent+Payara+versions.html
@@ -814,7 +827,8 @@
                         <configuration>
                             <environmentVariables>
                                 <JBOSS_HOME>
-                                    ${project.build.directory}/wildfly-${wildfly.version}</JBOSS_HOME>
+                                    ${project.build.directory}/wildfly-${wildfly.version}
+                                </JBOSS_HOME>
                             </environmentVariables>
                             <systemPropertyVariables>
                                 <arquillian.launch>wildfly-managed</arquillian.launch>
@@ -1115,6 +1129,110 @@
                                 </java.util.logging.config.file>
                             </systemPropertyVariables>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>coverage</id>
+            <properties>
+                <jacoco.version>0.8.11</jacoco.version>
+                <asm.version>9.6</asm.version>
+                <arquillian-jacoco.version>1.1.0</arquillian-jacoco.version>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.extension</groupId>
+                    <artifactId>arquillian-jacoco</artifactId>
+                    <version>${arquillian-jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
+                <dependency>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                    <version>${asm.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm-util -->
+                <dependency>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm-util</artifactId>
+                    <version>${asm.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core -->
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.core</artifactId>
+                    <version>${jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent -->
+                <dependency>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>org.jacoco.agent</artifactId>
+                    <version>${jacoco.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <configuration>
+                            <excludes>
+                                <!-- excludes the resources not to calculated in coverage report-->
+                                <exclude>**/*Resource.*</exclude>
+                            </excludes>
+                            <formats>XML,HTML</formats>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>prepare-unit-tests</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>prepare-integration-tests</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                                <configuration>
+                                    <append>true</append>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>default-report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                    <goal>report-integration</goal>
+                                </goals>
+                            </execution>
+                            <!--                            <execution>
+                                <id>default-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <rule>
+                                            <element>BUNDLE</element>
+                                            <limits>
+                                                <limit>
+                                                    <counter>COMPLEXITY</counter>
+                                                    <value>COVEREDRATIO</value>
+                                                    <minimum>0.60</minimum>
+                                                </limit>
+                                            </limits>
+                                        </rule>
+                                    </rules>
+                                </configuration>
+                            </execution>-->
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
