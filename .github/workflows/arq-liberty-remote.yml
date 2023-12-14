@@ -42,8 +42,6 @@ jobs:
           mkdir -p ${INSTALL_DIR}/wlp/usr/shared/resources
           chmod -R a+rxw ${INSTALL_DIR}/wlp/usr/shared/resources
           curl -o ${INSTALL_DIR}/wlp/usr/shared/resources/derby.jar -L https://repo1.maven.org/maven2/org/apache/derby/derby/${DB_VERSION}/derby-${DB_VERSION}.jar
-          curl -o ${INSTALL_DIR}/wlp/usr/shared/resources/derbyshared.jar -L https://repo1.maven.org/maven2/org/apache/derby/derbyshared/${DB_VERSION}/derbyshared-${DB_VERSION}.jar
-          
           chmod a+rx ${INSTALL_DIR}/wlp/usr/shared/resources/*.jar
           
           ${INSTALL_DIR}/wlp/bin/server create testServer
