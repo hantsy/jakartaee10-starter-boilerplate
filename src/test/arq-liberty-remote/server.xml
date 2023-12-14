@@ -85,7 +85,7 @@
     <!-- Datasource Configuration -->
     <!-- remove jndiName="" to serve java:comp/DefaultDataSource for Java EE 7 or above -->
     <dataSource id="DefaultDataSource">
-        <jdbcDriver libraryRef="derbyJDBCLib" />
+        <jdbcDriver libraryRef="derbyJDBCLib" javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" />
         <properties.derby.embedded databaseName="ExampleDb" createDatabase="create"/>
     </dataSource>
     
