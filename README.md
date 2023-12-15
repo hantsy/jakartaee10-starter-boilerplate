@@ -1,9 +1,9 @@
 # Jakarta EE 10 Starter Boilerplate
 
-![Arquillian Integration Test with GlassFish Managed Container](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-managed.yml/badge.svg)
-![Arquillian Integration Test with GlassFish Remote Container](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-remote.yml/badge.svg)
-![Arquillian Integration Test with WildFly Managed Container](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-managed.yml/badge.svg)
-![Arquillian Integration Test with WildFly Remote Container](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-remote.yml/badge.svg)
+[![arq-glassfish-managed](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-managed.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-managed.yml)
+[![arq-glassfish-remote](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-remote.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-glassfish-remote.yml)
+[![arq-wildfly-managed](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-managed.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-managed.yml)
+[![arq-wildfly-remote](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-remote.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-wildfly-remote.yml)
 [![arq-liberty-managed](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-liberty-managed.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-liberty-managed.yml)
 [![arq-liberty-remote](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-liberty-remote.yml/badge.svg)](https://github.com/hantsy/jakartaee10-starter-boilerplate/actions/workflows/arq-liberty-remote.yml)
 
