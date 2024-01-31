@@ -1,0 +1,127 @@
+repo_name: hantsy/jakartaee10-starter-boilerplate
+report_id: d78bf9937d91965de1797125cb2b92ac
+version: 0.1
+repo_type: Public
+timestamp: '2024-01-31T08:55:45+00:00'
+requested_by: hantsy
+provider: github
+branch: master
+detected_tools_count: 10
+tools:
+- name: CSS 3
+  description: The latest evolution of the Cascading Style Sheets language
+  website_url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate
+  detection_source: Repo Metadata
+- name: Java
+  description: A concurrent, class-based, object-oriented, language specifically designed
+    to have as few implementation dependencies as possible
+  website_url: https://www.java.com
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/995/K85ZWV2F.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate
+  detection_source: Repo Metadata
+- name: Apache NiFi
+  description: A reliable system to process and distribute data
+  website_url: https://nifi.apache.org/
+  open_source: false
+  hosted_saas: false
+  category: Data Stores
+  sub_category: Message Queue
+  image_url: https://img.stackshare.io/service/8447/qpL7Veso_400x400.jpg
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/docker-compose.yaml
+  detection_source: docker-compose.yaml
+  last_updated_by: hantsy
+  last_updated_on: 2023-05-28 15:52:59.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/.github/workflows/arq-glassfish-managed.yml
+  detection_source: ".github/workflows/arq-glassfish-managed.yml"
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2023-12-04 17:44:07.000000000 Z
+- name: GlassFish
+  description: The Open Source Java EE Reference Implementation
+  website_url: https://glassfish.java.net
+  version: 7.0.4
+  open_source: false
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Web Servers
+  image_url: https://img.stackshare.io/service/3628/515GX-Cc_400x400.jpg
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/docker-compose.yaml
+  detection_source: docker-compose.yaml
+  last_updated_by: hantsy
+  last_updated_on: 2023-06-03 08:12:06.000000000 Z
+- name: Wildfly
+  description: A Java EE8 Application Server
+  website_url: https://www.wildfly.org/
+  open_source: false
+  hosted_saas: false
+  category: Application Hosting
+  sub_category: Web Servers
+  image_url: https://img.stackshare.io/service/3411/R_inOTNM_400x400.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/docker-compose.yaml
+  detection_source: docker-compose.yaml
+  last_updated_by: hantsy
+  last_updated_on: 2023-05-28 15:52:59.000000000 Z
+- name: org.assertj:assertj-core
+  description: Rich and fluent assertions for testing for Java
+  version: 3.25.2
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/pom.xml
+  detection_source: pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2024-01-24 17:08:55.000000000 Z
+- name: org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-maven
+  description: Implementation for Resolving Dependencies from a Maven Backend
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/pom.xml
+  detection_source: pom.xml
+  last_updated_by: dependabot[bot]
+  last_updated_on: 2024-01-29 17:15:12.000000000 Z
+- name: org.junit.jupiter:junit-jupiter
+  description: Module "junit-jupiter" of JUnit 5
+  license: EPL-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Maven Packages
+  image_url: https://img.stackshare.io/package/maven/image.png
+  detection_source_url: https://github.com/hantsy/jakartaee10-starter-boilerplate/blob/master/pom.xml
+  detection_source: pom.xml
+  last_updated_by: hantsy
+  last_updated_on: 2023-12-09 09:29:20.000000000 Z
