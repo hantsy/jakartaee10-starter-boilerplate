@@ -29,7 +29,7 @@
         <maven-surefire-report-plugin.version>3.2.5</maven-surefire-report-plugin.version>
 
         <!-- sonar report -->
-        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
 
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
         <cargo-maven3-plugin.version>1.10.12</cargo-maven3-plugin.version>
