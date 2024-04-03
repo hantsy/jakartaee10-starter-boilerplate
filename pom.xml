@@ -60,7 +60,7 @@
         <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
 
         <!-- Wildfly server -->
-        <wildfly.version>30.0.1.Final</wildfly.version>
+        <wildfly.version>31.0.1.Final</wildfly.version>
         <wildfly-maven-plugin.version>4.2.2.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
         <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
