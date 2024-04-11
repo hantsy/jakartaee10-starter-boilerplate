@@ -56,7 +56,7 @@
         <arquillian-glassfish-jakarta.version>7.0.10</arquillian-glassfish-jakarta.version>
 
         <!-- Payara server -->
-        <payara.version>6.2024.3</payara.version>
+        <payara.version>6.2024.4</payara.version>
         <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
 
         <!-- Wildfly server -->
