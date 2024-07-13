@@ -1203,7 +1203,6 @@
                                 <!-- excludes the resources not to calculated in coverage report-->
                                 <exclude>**/*Resource.*</exclude>
                             </excludes>
-                            <formats>XML</formats>
                         </configuration>
                          <executions>
                             <execution>
