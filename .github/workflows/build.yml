@@ -29,8 +29,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn clean test -Punit-test,coverage
-          mvn verify -Parq-wildfly-managed,coverage jacoco:report 
+          mvn clean test jacoco:report -Punit-test,coverage
+          mvn verify jacoco:report-integration -Parq-wildfly-managed,coverage 
           mvn sonar:sonar \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.token=$SONAR_TOKEN \
