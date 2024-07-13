@@ -1203,32 +1203,34 @@
                                 <!-- excludes the resources not to calculated in coverage report-->
                                 <exclude>**/*Resource.*</exclude>
                             </excludes>
-                            <formats>XML,HTML</formats>
+                            <formats>XML</formats>
                         </configuration>
-                        <executions>
+                         <executions>
                             <execution>
-                                <id>prepare-unit-tests</id>
+                                <id>default-prepare-agent</id>
                                 <goals>
                                     <goal>prepare-agent</goal>
                                 </goals>
                             </execution>
                             <execution>
-                                <id>prepare-integration-tests</id>
+                                <id>default-prepare-agent-integration</id>
                                 <goals>
                                     <goal>prepare-agent-integration</goal>
                                 </goals>
-                                <configuration>
-                                    <append>true</append>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>default-report</id>
                                 <goals>
                                     <goal>report</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>default-report-integration</id>
+                                <goals>
                                     <goal>report-integration</goal>
                                 </goals>
                             </execution>
-                            <!--                            <execution>
+                            <execution>
                                 <id>default-check</id>
                                 <goals>
                                     <goal>check</goal>
@@ -1247,7 +1249,7 @@
                                         </rule>
                                     </rules>
                                 </configuration>
-                            </execution>-->
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
