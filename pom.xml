@@ -53,7 +53,7 @@
         <assertj.version>3.26.3</assertj.version>
 
         <!-- Glassfish server -->
-        <glassfish.version>7.0.18</glassfish.version>
+        <glassfish.version>7.0.19</glassfish.version>
         <jersey.version>3.1.9</jersey.version>
         <eclipselink.version>4.0.2</eclipselink.version>
         <arquillian-glassfish-jakarta.version>7.0.10</arquillian-glassfish-jakarta.version>
