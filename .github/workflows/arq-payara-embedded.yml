@@ -1,0 +1,29 @@
+name: arq-payara-embedded
+
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+          cache: "maven"
+
+      - name: Run integration test with -Parq-payara-embedded
+        run: mvn -B clean verify -Parq-payara-embedded
