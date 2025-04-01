@@ -1,4 +1,4 @@
-name: arq-payara-micro
+name: arq-wildfly-bootable-jar
 
 on:
   push:
@@ -25,5 +25,5 @@ jobs:
           java-version: "17"
           cache: "maven"
 
-      - name: Run integration test with -Parq-payara-micro
-        run: mvn -B clean verify -Parq-payara-micro
+      - name: Run integration test with -Parq-wildfly-bootable-jar
+        run: mvn clean verify -Parq-wildfly-bootable-jar
