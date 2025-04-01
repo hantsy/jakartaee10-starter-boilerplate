@@ -39,7 +39,7 @@
 
         <!-- Arquillian 1.7.0 adds Jakarta EE 9 and JUnit 5 support-->
         <arquillian-bom.version>1.9.0.Final</arquillian-bom.version>
-        <!-- Since Arquillian core 1.9.0.Final, need to add a Jakarta BOM which aligns to Jakarta EE -->
+        <!-- Since Arquillian core 1.9.0.Final, need to add Arquillian Jakarta BOM that aligns to Jakarta EE -->
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
         <shrinkwrap-resolver-bom.version>3.3.3</shrinkwrap-resolver-bom.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
@@ -1305,6 +1305,27 @@
                     <scope>test</scope>
                 </dependency>
 
+	        <!-- Eclipse Link -->
+                <dependency>
+		      <groupId>org.eclipse.persistence</groupId>
+		      <artifactId>org.eclipse.persistence.core</artifactId>
+		      <version>${eclipselink.version}</version>
+		</dependency>
+		<dependency>
+		      <groupId>org.eclipse.persistence</groupId>
+		      <artifactId>org.eclipse.persistence.antlr</artifactId>
+		      <version>${eclipselink.version}</version>
+		</dependency>
+		<dependency>
+		      <groupId>org.eclipse.persistence</groupId>
+		      <artifactId>org.eclipse.persistence.asm</artifactId>
+		      <version>${eclipselink.version}</version>
+		</dependency>
+		<dependency>
+		      <groupId>org.eclipse.persistence</groupId>
+		      <artifactId>org.eclipse.persistence.jpa</artifactId>
+		      <version>${eclipselink.version}</version>
+		</dependency>
                 <!-- jaxrs client support -->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
