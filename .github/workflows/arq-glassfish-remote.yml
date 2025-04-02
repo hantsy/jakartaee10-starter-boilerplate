@@ -24,12 +24,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'zulu'
+          distribution: "zulu"
           cache: maven
       - name: Run Glassfish Server
         run: |
           export GLASSFISH_ARCHIVE=glassfish7
-          export GLASSFISH_VERSION=7.0.5
+          export GLASSFISH_VERSION=7.0.22
           export INSTALL_DIR="/opt/appsvr"
           mkdir ${INSTALL_DIR}
           

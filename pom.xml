@@ -21,18 +21,21 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- Official Maven Plugins -->
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-war-plugin.version>3.4.0</maven-war-plugin.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+        <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
         <maven-surefire-report-plugin.version>3.5.2</maven-surefire-report-plugin.version>
+        <!-- Maven 4 requires declarations of the plugins -->
+        <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
+        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 
         <!-- sonar report -->
         <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
 
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
-        <cargo-maven3-plugin.version>1.10.16</cargo-maven3-plugin.version>
+        <cargo-maven3-plugin.version>1.10.17</cargo-maven3-plugin.version>
 
         <!-- Jakarta EE API 10.0.0 -->
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
@@ -42,7 +45,7 @@
         <!-- Since Arquillian core 1.9.0.Final, need to add Arquillian Jakarta BOM that aligns to Jakarta EE -->
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
         <shrinkwrap-resolver-bom.version>3.3.3</shrinkwrap-resolver-bom.version>
-        <junit-jupiter.version>5.11.4</junit-jupiter.version>
+        <junit-jupiter.version>5.12.1</junit-jupiter.version>
 
         <!-- Test Utilities -->
         <mockito.version>5.8.0</mockito.version>
@@ -50,31 +53,31 @@
         <awaitility.version>4.2.0</awaitility.version>
         <hamcrest.version>2.2</hamcrest.version>
         <jsonassert.version>1.5.1</jsonassert.version>
-        <assertj.version>3.27.0</assertj.version>
+        <assertj.version>3.27.3</assertj.version>
 
         <!-- Glassfish server -->
-        <glassfish.version>7.0.20</glassfish.version>
-        <jersey.version>3.1.9</jersey.version>
+        <glassfish.version>7.0.23</glassfish.version>
+        <jersey.version>3.1.10</jersey.version>
         <eclipselink.version>4.0.5</eclipselink.version>
-        <arquillian-glassfish-jakarta.version>7.0.10</arquillian-glassfish-jakarta.version>
+        <arquillian-glassfish.version>7.0.13</arquillian-glassfish.version>
 
         <!-- Payara server -->
-        <payara.version>6.2024.12</payara.version>
-        <arquillian-payara.version>3.0.alpha8</arquillian-payara.version>
+        <payara.version>6.2025.3</payara.version>
+        <arquillian-payara.version>3.1</arquillian-payara.version>
 
         <!-- Wildfly server -->
-        <wildfly.version>34.0.1.Final</wildfly.version>
-        <wildfly-maven-plugin.version>5.1.1.Final</wildfly-maven-plugin.version>
+        <wildfly.version>35.0.1.Final</wildfly.version>
+        <wildfly-maven-plugin.version>5.1.2.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
-        <wildfly-jar-maven-plugin.version>8.1.0.Final</wildfly-jar-maven-plugin.version>
-        <openshift-maven-plugin.version>1.11.0</openshift-maven-plugin.version>
-        <resteasy.version>6.2.11.Final</resteasy.version>
+        <wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>
+        <openshift-maven-plugin.version>1.18.1</openshift-maven-plugin.version>
+        <resteasy.version>6.2.12.Final</resteasy.version>
 
         <!-- OpenLiberty server -->
         <!-- Since 23.0.0.3, openliberty adds complete Jakarta EE 10 support.
-		see: https://openliberty.io/blog/2023/04/04/23.0.0.3.html
+		          see: https://openliberty.io/blog/2023/04/04/23.0.0.3.html
          -->
-        <liberty.runtime.version>24.0.0.12</liberty.runtime.version>
+        <liberty.runtime.version>25.0.0.3</liberty.runtime.version>
         <!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
         <derby.version>10.14.2.0</derby.version>
         <liberty-maven-plugin.version>3.11.2</liberty-maven-plugin.version>
@@ -178,9 +181,19 @@
     </dependencies>
 
     <build>
-        <finalName>demo</finalName>
+        <finalName>jakartaee10-starter-boilerplate</finalName>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.cargo</groupId>
                     <artifactId>cargo-maven3-plugin</artifactId>
@@ -329,9 +342,9 @@
             <id>wildfly</id>
             <properties>
                 <!-- Wildfly server -->
-                <wildfly.artifactId>wildfly-preview-dist</wildfly.artifactId>
+                <wildfly.artifactId>wildfly-dist</wildfly.artifactId>
                 <wildfly.serverConfig>standalone-full.xml</wildfly.serverConfig>
-                <jboss-as.home>${project.build.directory}/wildfly-preview-${wildfly.version}</jboss-as.home>
+                <jboss-as.home>${project.build.directory}/wildfly-${wildfly.version}</jboss-as.home>
             </properties>
             <build>
                 <plugins>
@@ -411,6 +424,98 @@
                     <url>https://build.shibboleth.net/nexus/content/repositories/releases/</url>
                 </repository>
             </repositories>
+        </profile>
+		<profile>
+            <id>wildfly-bootable</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <configuration>
+                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</feature-pack-location>
+							<feature-pack>
+								<groupId>org.wildfly</groupId>
+								<artifactId>wildfly-datasources-galleon-pack</artifactId>
+								<version>${wildfly.version}</version>
+							</feature-pack>
+                            <layers>
+                                <layer>jaxrs</layer>
+                            </layers>
+                            <plugin-options>
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
+                            </plugin-options>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>wildfly-openshift</id>
+            <properties>
+                <jkube.generator.from>registry.redhat.io/ubi8/openjdk-17:latest</jkube.generator.from>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <configuration>
+                            <feature-pack-location>
+                                wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}
+                            </feature-pack-location>
+                            <layers>
+                                <layer>cloud-server</layer>
+                            </layers>
+                            <excluded-layers>
+                                <layer>deployment-scanner</layer>
+                            </excluded-layers>
+                            <cloud />
+                            <plugin-options>
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
+                            </plugin-options>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.eclipse.jkube</groupId>
+                        <artifactId>openshift-maven-plugin</artifactId>
+                        <version>${openshift-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>resource</goal>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <enricher>
+                                <config>
+                                    <jkube-service>
+                                        <type>NodePort</type>
+                                    </jkube-service>
+                                </config>
+                            </enricher>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>glassfish</id>
@@ -687,7 +792,7 @@
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
             <dependencies>
-                <!-- Jersey -->
+                <!-- Jersey Client-->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-multipart</artifactId>
@@ -713,9 +818,9 @@
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>com.github.hantsy.arquillian-container-glassfish-jakarta</groupId>
-                    <artifactId>arquillian-glassfish-managed-jakarta</artifactId>
-                    <version>${arquillian-glassfish-jakarta.version}</version>
+                    <groupId>io.github.hantsy.arquillian</groupId>
+                    <artifactId>arquillian-glassfish-managed</artifactId>
+                    <version>${arquillian-glassfish.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -825,9 +930,9 @@
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>com.github.hantsy.arquillian-container-glassfish-jakarta</groupId>
-                    <artifactId>arquillian-glassfish-remote-jakarta</artifactId>
-                    <version>${arquillian-glassfish-jakarta.version}</version>
+                    <groupId>io.github.hantsy.arquillian</groupId>
+                    <artifactId>arquillian-glassfish-remote</artifactId>
+                    <version>${arquillian-glassfish.version}</version>
                     <scope>test</scope>
                 </dependency>
             </dependencies>
@@ -849,6 +954,299 @@
                             <systemPropertyVariables>
                                 <arquillian.launch>glassfish-remote</arquillian.launch>
                             </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+		<profile>
+            <id>arq-payara-embedded</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+			    <!-- Jersey Client-->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>fish.payara.extras</groupId>
+                    <artifactId>payara-embedded-all</artifactId>
+                    <version>${payara.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>fish.payara.arquillian</groupId>
+                    <artifactId>arquillian-payara-server-embedded</artifactId>
+                    <version>${arquillian-payara.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+			<build>
+				<plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true -Djdk.attach.allowAttachSelf=true --add-opens java.naming/javax.naming.spi=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.jar=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+			</build>	
+        </profile>
+        <profile>
+            <id>arq-payara-managed</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+			    <!-- Jersey Client-->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>			
+                <!-- Payara Server Container adaptor -->
+                <dependency>
+                    <groupId>fish.payara.arquillian</groupId>
+                    <artifactId>arquillian-payara-server-managed</artifactId>
+                    <version>${arquillian-payara.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+				    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-payara-managed</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>fish.payara.distributions</groupId>
+                                            <artifactId>payara</artifactId>
+                                            <version>${payara.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <payara.home>${project.build.directory}/payara6</payara.home>
+                                <arquillian.launch>payara-managed</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-payara-remote</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+			    <!-- Jersey Client-->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency> 
+				<dependency>
+                    <groupId>fish.payara.arquillian</groupId>
+                    <artifactId>arquillian-payara-server-remote</artifactId>
+                    <version>${arquillian-payara.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+				    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-payara-remote</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <!-- This needs tuning -->
+                            <systemPropertyVariables>
+                                <arquillian.launch>payara-remote</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arq-payara-micro</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+			    <!-- Jersey Client-->
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- Payara Micro Managed Container Adaptor -->
+                <dependency>
+                    <groupId>fish.payara.arquillian</groupId>
+                    <artifactId>arquillian-payara-micro-managed</artifactId>
+                    <version>${arquillian-payara.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>fish.payara.extras</groupId>
+                                            <artifactId>payara-micro</artifactId>
+                                            <version>${payara.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <destFileName>payara-micro.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <payara.microJar>${project.build.directory}/payara-micro.jar</payara.microJar>
+                            </systemPropertyVariables>
+							<argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true -Djdk.attach.allowAttachSelf=true --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.naming/javax.naming.spi=ALL-UNNAMED</argLine>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -972,7 +1370,6 @@
                             <systemPropertyVariables>
                                 <arquillian.launch>wildfly-managed</arquillian.launch>
                                 <serverConfig>standalone-full.xml</serverConfig>
-                                <!--<java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>-->
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -1029,7 +1426,7 @@
                 </dependency>
                 <!-- To fix 5.0.0.Alpha2 issue:
                 https://github.com/wildfly/wildfly-arquillian/discussions/201#discussioncomment-1849214-->
-                <dependency>
+                <!--<dependency>
                     <groupId>org.jboss.remoting</groupId>
                     <artifactId>jboss-remoting</artifactId>
                     <version>5.0.30.Final</version>
@@ -1040,7 +1437,7 @@
                     <artifactId>remoting-jmx</artifactId>
                     <version>3.1.0.Final</version>
                     <scope>test</scope>
-                </dependency>
+                </dependency>-->
             </dependencies>
             <build>
                 <testResources>
@@ -1061,8 +1458,6 @@
                         <configuration>
                             <systemPropertyVariables>
                                 <arquillian.launch>wildfly-remote</arquillian.launch>
-                                <!--
-                                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager> -->
                             </systemPropertyVariables>
                             <argLine>--add-opens java.base/java.io=ALL-UNNAMED</argLine>
                         </configuration>
@@ -1070,6 +1465,216 @@
                 </plugins>
             </build>
         </profile>
+		 <profile>
+            <!-- An optional Arquillian testing profile that executes tests in your
+                WildFly instance -->
+            <!-- Run with: mvn clean test -Parq-wildfly-embedded -->
+            <id>arq-wildfly-embedded</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-client</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jackson2-provider</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- use Jersey client instead -->
+                <!--<dependency>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-json-binding</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.inject</groupId>
+                    <artifactId>jersey-hk2</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>-->
+
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-embedded</artifactId>
+                    <version>${wildfly-arquillian.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+				    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-wildfly-embedded</directory>
+                        <includes>
+                            <include>*</include>
+                        </includes>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>${wildfly.version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <JBOSS_HOME>${project.build.directory}/wildfly-${wildfly.version}</JBOSS_HOME>
+                            </environmentVariables>
+                            <systemPropertyVariables>
+                                <arquillian.launch>wildfly-embedded</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- An optional Arquillian testing profile that executes tests on a bootable FAT jar -->
+            <!-- Run with: mvn clean test -Parq-wildfly-bootable-jar -->
+            <id>arq-wildfly-bootable-jar</id>
+            <properties>
+                <skip.unit.tests>true</skip.unit.tests>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-client</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.resteasy</groupId>
+                    <artifactId>resteasy-jackson2-provider</artifactId>
+                    <version>${resteasy.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- use Jersey client instead -->
+                <!-- <dependency>
+                     <groupId>org.glassfish.jersey.media</groupId>
+                     <artifactId>jersey-media-json-binding</artifactId>
+                     <version>${jersey.version}</version>
+                     <scope>test</scope>
+                 </dependency>
+                 <dependency>
+                     <groupId>org.glassfish.jersey.inject</groupId>
+                     <artifactId>jersey-hk2</artifactId>
+                     <version>${jersey.version}</version>
+                     <scope>test</scope>
+                 </dependency>
+                 <dependency>
+                     <groupId>org.glassfish.jersey.core</groupId>
+                     <artifactId>jersey-client</artifactId>
+                     <version>${jersey.version}</version>
+                     <scope>test</scope>
+                 </dependency>-->
+
+                <dependency>
+                    <groupId>org.wildfly.arquillian</groupId>
+                    <artifactId>wildfly-arquillian-container-bootable</artifactId>
+                    <version>${wildfly-arquillian.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+				    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/arq-wildfly-bootable-jar</directory>
+                        <includes>
+                            <include>*</include>
+                        </includes>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-jar-maven-plugin</artifactId>
+                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <configuration>
+                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</feature-pack-location>
+							<feature-pack>
+								<groupId>org.wildfly</groupId>
+								<artifactId>wildfly-datasources-galleon-pack</artifactId>
+								<version>${wildfly.version}</version>
+							</feature-pack>
+                            <layers>
+                                <layer>jaxrs</layer>
+                                <layer>management</layer>
+                            </layers>
+                            <excluded-layers>
+                                <layer>deployment-scanner</layer>
+                            </excluded-layers>
+                            <plugin-options>
+                                <jboss-fork-embedded>true</jboss-fork-embedded>
+                            </plugin-options>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-plugin.version}</version>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <bootable.jar>
+                                    ${project.build.directory}/${project.artifactId}-bootable.jar
+                                </bootable.jar>
+                                <arquillian.launch>wildfly-bootable-jar</arquillian.launch>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+		
         <profile>
             <!-- Run with: mvn clean verify -Parq-liberty-managed -->
             <id>arq-liberty-managed</id>
@@ -1415,7 +2020,7 @@
             <id>coverage</id>
             <properties>
                 <jacoco.version>0.8.12</jacoco.version>
-                <asm.version>9.7.1</asm.version>
+                <asm.version>9.8</asm.version>
                 <arquillian-jacoco.version>1.1.0</arquillian-jacoco.version>
             </properties>
             <dependencies>
@@ -1565,10 +2170,6 @@
             <id>payara-nexus</id>
             <name>Payara Nexus Artifacts</name>
             <url>https://nexus.payara.fish/repository/payara-artifacts/</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 </project>
