@@ -55,7 +55,7 @@
         <!-- Glassfish server -->
         <glassfish.version>7.0.20</glassfish.version>
         <jersey.version>3.1.9</jersey.version>
-        <eclipselink.version>4.0.2</eclipselink.version>
+        <eclipselink.version>4.0.5</eclipselink.version>
         <arquillian-glassfish-jakarta.version>7.0.10</arquillian-glassfish-jakarta.version>
 
         <!-- Payara server -->
@@ -1308,24 +1308,10 @@
 	        <!-- Eclipse Link -->
                 <dependency>
 		      <groupId>org.eclipse.persistence</groupId>
-		      <artifactId>org.eclipse.persistence.core</artifactId>
+		      <artifactId>eclipselink</artifactId>
 		      <version>${eclipselink.version}</version>
 		</dependency>
-		<dependency>
-		      <groupId>org.eclipse.persistence</groupId>
-		      <artifactId>org.eclipse.persistence.antlr</artifactId>
-		      <version>${eclipselink.version}</version>
-		</dependency>
-		<dependency>
-		      <groupId>org.eclipse.persistence</groupId>
-		      <artifactId>org.eclipse.persistence.asm</artifactId>
-		      <version>${eclipselink.version}</version>
-		</dependency>
-		<dependency>
-		      <groupId>org.eclipse.persistence</groupId>
-		      <artifactId>org.eclipse.persistence.jpa</artifactId>
-		      <version>${eclipselink.version}</version>
-		</dependency>
+		
                 <!-- jaxrs client support -->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
