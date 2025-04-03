@@ -1,4 +1,4 @@
-FROM quay.io/wildfly/wildfly:28.0.1.Final-jdk17
+FROM quay.io/wildfly/wildfly:35.0.1.Final-jdk17
 
 # add deployment archive.
 ADD ./target/*.war /opt/jboss/wildfly/standalone/deployments/
