@@ -1911,11 +1911,11 @@
                 </dependency>
 
 	        <!-- Eclipse Link -->
-                <!--<dependency>
+                <dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
 			<version>${eclipselink.version}</version>
-		</dependency>-->
+		</dependency>
 		
                 <!-- jaxrs client support -->
                 <dependency>
@@ -1976,6 +1976,7 @@
                             <systemPropertyVariables>
                                 <tomee.remote.classifier>${tomee.classifier}</tomee.remote.classifier>
                                 <tomee.remote.version>${tomee.version}</tomee.remote.version>
+				<jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>   
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
