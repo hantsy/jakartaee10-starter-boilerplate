@@ -69,7 +69,9 @@
         <wildfly.version>35.0.1.Final</wildfly.version>
         <wildfly-maven-plugin.version>5.1.2.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
-        <wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>
+        <!-- wildfly-jar-maven-plugin is deprecated, since WildFly 34,
+        it is recommended to use the `wildfly-maven-plugin` instead. -->
+        <!--<wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>-->
         <openshift-maven-plugin.version>1.18.1</openshift-maven-plugin.version>
         <resteasy.version>6.2.12.Final</resteasy.version>
 
@@ -422,27 +424,30 @@
                 </repository>
             </repositories>
         </profile>
-		<profile>
+        <profile>
             <id>wildfly-bootable</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</feature-pack-location>
-							<feature-pack>
-								<groupId>org.wildfly</groupId>
-								<artifactId>wildfly-datasources-galleon-pack</artifactId>
-								<version>${wildfly.version}</version>
-							</feature-pack>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
                                 <layer>jaxrs</layer>
+                                <layer>h2database-default-datasource</layer>
+                                <layer>messaging-activemq</layer>
+                                <layer>management</layer>
                             </layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
+                            <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
                             <execution>
@@ -455,7 +460,7 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
+        <!--<profile>
             <id>wildfly-openshift</id>
             <properties>
                 <jkube.generator.from>registry.redhat.io/ubi8/openjdk-17:latest</jkube.generator.from>
@@ -476,7 +481,7 @@
                             <excluded-layers>
                                 <layer>deployment-scanner</layer>
                             </excluded-layers>
-                            <cloud />
+                            <cloud/>
                             <plugin-options>
                                 <jboss-fork-embedded>true</jboss-fork-embedded>
                             </plugin-options>
@@ -513,7 +518,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
         <profile>
             <id>glassfish</id>
             <properties>
@@ -836,14 +841,14 @@
                 </plugins>
             </build>
         </profile>
-		<profile>
+        <profile>
             <id>arq-payara-embedded</id>
             <properties>
                 <skip.unit.tests>true</skip.unit.tests>
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
             <dependencies>
-			    <!-- Jersey Client-->
+                <!-- Jersey Client-->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-multipart</artifactId>
@@ -881,17 +886,22 @@
                     <scope>test</scope>
                 </dependency>
             </dependencies>
-			<build>
-				<plugins>
+            <build>
+                <plugins>
                     <plugin>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <version>${maven-failsafe-plugin.version}</version>
                         <configuration>
-                            <argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true -Djdk.attach.allowAttachSelf=true --add-opens java.naming/javax.naming.spi=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.jar=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+                            <argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true
+                                -Djdk.attach.allowAttachSelf=true --add-opens java.naming/javax.naming.spi=ALL-UNNAMED
+                                --add-opens java.base/sun.net.www.protocol.jar=ALL-UNNAMED --add-opens
+                                java.base/java.net=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --add-opens
+                                java.base/java.lang=ALL-UNNAMED
+                            </argLine>
                         </configuration>
                     </plugin>
                 </plugins>
-			</build>	
+            </build>
         </profile>
         <profile>
             <id>arq-payara-managed</id>
@@ -900,7 +910,7 @@
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
             <dependencies>
-			    <!-- Jersey Client-->
+                <!-- Jersey Client-->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-multipart</artifactId>
@@ -924,7 +934,7 @@
                     <artifactId>jersey-client</artifactId>
                     <version>${jersey.version}</version>
                     <scope>test</scope>
-                </dependency>			
+                </dependency>
                 <!-- Payara Server Container adaptor -->
                 <dependency>
                     <groupId>fish.payara.arquillian</groupId>
@@ -935,7 +945,7 @@
             </dependencies>
             <build>
                 <testResources>
-				    <testResource>
+                    <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
@@ -990,7 +1000,7 @@
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
             <dependencies>
-			    <!-- Jersey Client-->
+                <!-- Jersey Client-->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-multipart</artifactId>
@@ -1014,8 +1024,8 @@
                     <artifactId>jersey-client</artifactId>
                     <version>${jersey.version}</version>
                     <scope>test</scope>
-                </dependency> 
-				<dependency>
+                </dependency>
+                <dependency>
                     <groupId>fish.payara.arquillian</groupId>
                     <artifactId>arquillian-payara-server-remote</artifactId>
                     <version>${arquillian-payara.version}</version>
@@ -1024,7 +1034,7 @@
             </dependencies>
             <build>
                 <testResources>
-				    <testResource>
+                    <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
@@ -1053,7 +1063,7 @@
                 <skip.integration.tests>false</skip.integration.tests>
             </properties>
             <dependencies>
-			    <!-- Jersey Client-->
+                <!-- Jersey Client-->
                 <dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
                     <artifactId>jersey-media-multipart</artifactId>
@@ -1123,7 +1133,10 @@
                             <systemPropertyVariables>
                                 <payara.microJar>${project.build.directory}/payara-micro.jar</payara.microJar>
                             </systemPropertyVariables>
-							<argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true -Djdk.attach.allowAttachSelf=true --add-opens java.base/java.io=ALL-UNNAMED --add-opens java.naming/javax.naming.spi=ALL-UNNAMED</argLine>
+                            <argLine>-Djdk.util.zip.disableZip64ExtraFieldValidation=true
+                                -Djdk.attach.allowAttachSelf=true --add-opens java.base/java.io=ALL-UNNAMED --add-opens
+                                java.naming/javax.naming.spi=ALL-UNNAMED
+                            </argLine>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -1342,7 +1355,7 @@
                 </plugins>
             </build>
         </profile>
-		 <profile>
+        <profile>
             <!-- An optional Arquillian testing profile that executes tests in your
                 WildFly instance -->
             <!-- Run with: mvn clean test -Parq-wildfly-embedded -->
@@ -1393,7 +1406,7 @@
             </dependencies>
             <build>
                 <testResources>
-				    <testResource>
+                    <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
@@ -1495,7 +1508,7 @@
             </dependencies>
             <build>
                 <testResources>
-				    <testResource>
+                    <testResource>
                         <directory>src/test/resources</directory>
                     </testResource>
                     <testResource>
@@ -1508,25 +1521,24 @@
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}</feature-pack-location>
-							<feature-pack>
-								<groupId>org.wildfly</groupId>
-								<artifactId>wildfly-datasources-galleon-pack</artifactId>
-								<version>${wildfly.version}</version>
-							</feature-pack>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:10.0.0.Final</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
                                 <layer>jaxrs</layer>
+                                <layer>h2database-default-datasource</layer>
+                                <layer>embedded-activemq</layer>
                                 <layer>management</layer>
                             </layers>
-                            <excluded-layers>
-                                <layer>deployment-scanner</layer>
-                            </excluded-layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
+                            <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
                             <execution>
@@ -1551,7 +1563,7 @@
                 </plugins>
             </build>
         </profile>
-		
+
         <profile>
             <!-- Run with: mvn clean verify -Parq-liberty-managed -->
             <id>arq-liberty-managed</id>
