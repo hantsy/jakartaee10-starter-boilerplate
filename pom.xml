@@ -1955,6 +1955,7 @@
                                 <arquillian.launch>tomee-embedded</arquillian.launch>
 				<jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>   
                             </systemPropertyVariables>
+			    <argLine>--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED</argLine>	
                         </configuration>
                     </plugin>
                 </plugins>
