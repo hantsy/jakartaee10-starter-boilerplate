@@ -1911,11 +1911,11 @@
                 </dependency>
 
 	        <!-- Eclipse Link -->
-                <dependency>
-		      <groupId>org.eclipse.persistence</groupId>
-		      <artifactId>eclipselink</artifactId>
-		      <version>${eclipselink.version}</version>
-		</dependency>
+                <!--<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>${eclipselink.version}</version>
+		</dependency>-->
 		
                 <!-- jaxrs client support -->
                 <dependency>
@@ -1953,6 +1953,7 @@
                         <configuration>
                             <systemPropertyVariables>
                                 <arquillian.launch>tomee-embedded</arquillian.launch>
+				<jakarta.persistence.provider>org.eclipse.persistence.jpa.PersistenceProvider</jakarta.persistence.provider>   
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
