@@ -44,7 +44,7 @@
         <arquillian-bom.version>1.9.0.Final</arquillian-bom.version>
         <!-- Since Arquillian core 1.9.0.Final, need to add Arquillian Jakarta BOM that aligns to Jakarta EE -->
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
-        <shrinkwrap-resolver-bom.version>3.3.3</shrinkwrap-resolver-bom.version>
+        <shrinkwrap-resolver-bom.version>3.3.4</shrinkwrap-resolver-bom.version>
         <junit-jupiter.version>5.12.1</junit-jupiter.version>
 
         <!-- Test Utilities -->
@@ -69,7 +69,9 @@
         <wildfly.version>35.0.1.Final</wildfly.version>
         <wildfly-maven-plugin.version>5.1.2.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
-        <wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>
+        <!-- wildfly-jar-maven-plugin is deprecated, since WildFly 34,
+        it is recommended to use the `wildfly-maven-plugin` instead. -->
+        <!--<wildfly-jar-maven-plugin.version>12.0.0.Final</wildfly-jar-maven-plugin.version>-->
         <openshift-maven-plugin.version>1.18.1</openshift-maven-plugin.version>
         <resteasy.version>6.2.12.Final</resteasy.version>
 
@@ -431,23 +433,24 @@
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-pack-location>
-                                wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}
-                            </feature-pack-location>
-                            <feature-pack>
-                                <groupId>org.wildfly</groupId>
-                                <artifactId>wildfly-datasources-galleon-pack</artifactId>
-                                <version>${wildfly.version}</version>
-                            </feature-pack>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
                                 <layer>jaxrs</layer>
+                                <layer>h2database-default-datasource</layer>
+                                <layer>messaging-activemq</layer>
+                                <layer>management</layer>
                             </layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
+                            <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
                             <execution>
@@ -460,7 +463,7 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
+        <!--<profile>
             <id>wildfly-openshift</id>
             <properties>
                 <jkube.generator.from>registry.redhat.io/ubi8/openjdk-17:latest</jkube.generator.from>
@@ -518,7 +521,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
+        </profile>-->
         <profile>
             <id>glassfish</id>
             <properties>
@@ -1641,30 +1644,24 @@
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
                             <feature-packs>
-                                <feature-pack-location>
-                                    wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}
-                                </feature-pack-location>
                                 <feature-pack>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-datasources-galleon-pack</artifactId>
-                                    <version>${wildfly.version}</version>
+                                    <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:10.0.0.Final</location>
                                 </feature-pack>
                             </feature-packs>
                             <layers>
                                 <layer>jaxrs</layer>
-                                <layer>postgresql-default-datasource</layer>
+                                <layer>h2database-default-datasource</layer>
+                                <layer>embedded-activemq</layer>
                                 <layer>management</layer>
                             </layers>
-                            <excluded-layers>
-                                <layer>deployment-scanner</layer>
-                            </excluded-layers>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
+                            <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
                             <execution>
@@ -2132,7 +2129,7 @@
         <profile>
             <id>coverage</id>
             <properties>
-                <jacoco.version>0.8.12</jacoco.version>
+                <jacoco.version>0.8.13</jacoco.version>
                 <asm.version>9.8</asm.version>
                 <arquillian-jacoco.version>1.1.0</arquillian-jacoco.version>
             </properties>
