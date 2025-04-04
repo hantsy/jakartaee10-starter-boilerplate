@@ -15,6 +15,13 @@
             <!--Optional Container Properties-->
             <property name="properties">
                 aproperty=something
+                jakarta.persistence.provider=org.eclipse.persistence.jpa.PersistenceProvider
+                AMQResourceAdapter = new://Resource?type=ActiveMQResourceAdapter
+                AMQResourceAdapter.BrokerXmlConfig = broker:(tcp://localhost:61616?useJmx=false)
+                AMQMessageContainer = new://Container?type=MESSAGE
+                AMQMessageContainer.ResourceAdapter = AMQResourceAdapter
+                AMQConnectionFactory = new://Resource?type=jakarta.jms.ConnectionFactory
+                AMQConnectionFactory.ResourceAdapter = AMQResourceAdapter
             </property>
             <!--Optional Remote Adapter Deployer Properties
             <property name="deployerProperties">
