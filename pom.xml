@@ -67,7 +67,7 @@
 
         <!-- Wildfly server -->
         <wildfly.version>35.0.1.Final</wildfly.version>
-        <wildfly-maven-plugin.version>5.1.2.Final</wildfly-maven-plugin.version>
+        <wildfly-maven-plugin.version>5.1.3.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
         <!-- wildfly-jar-maven-plugin is deprecated, since WildFly 34,
         it is recommended to use the `wildfly-maven-plugin` instead. -->
