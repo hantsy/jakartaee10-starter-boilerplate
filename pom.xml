@@ -446,6 +446,9 @@
                                 <layer>h2database-default-datasource</layer>
                                 <layer>messaging-activemq</layer>
                                 <layer>management</layer>
+				<layer>ejb</layer>
+	                        <layer>jpa</layer>
+	                        <layer>jsf</layer>    
                             </layers>
                             <bootable-jar>true</bootable-jar>
                         </configuration>
@@ -1537,6 +1540,9 @@
                                 <layer>h2database-default-datasource</layer>
                                 <layer>embedded-activemq</layer>
                                 <layer>management</layer>
+				<layer>ejb</layer>
+	                        <layer>jpa</layer>
+	                        <layer>jsf</layer>    
                             </layers>
                             <bootable-jar>true</bootable-jar>
                         </configuration>
