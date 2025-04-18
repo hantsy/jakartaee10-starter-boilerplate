@@ -444,7 +444,7 @@
                             <layers>
                                 <layer>jaxrs</layer>
                                 <layer>h2database-default-datasource</layer>
-                                <layer>messaging-activemq</layer>
+                                <layer>embedded-activemq</layer>
                                 <layer>management</layer>
 				<layer>ejb</layer>
 	                        <layer>jpa</layer>
