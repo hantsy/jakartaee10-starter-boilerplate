@@ -433,12 +433,12 @@
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-packs>
+                            <!--<feature-packs>
                                 <feature-pack>
                                     <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
                                 </feature-pack>
                                 <feature-pack>
-                                    <location>org.wildfly:wildfly-datasources-galleon-pack:${wildfly.version}</location>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:10.0.0.Final</location>
                                 </feature-pack>
                             </feature-packs>
                             <layers>
@@ -449,7 +449,14 @@
                                 <layer>ejb</layer>
                                 <layer>jpa</layer>
                                 <layer>jsf</layer>
-                            </layers>
+                            </layers>-->
+                            <discover-provisioning-info>
+                                <suggest>true</suggest>
+                                <add-ons>
+                                    <add-on>embedded-activemq</add-on>
+                                    <add-on>h2-database:default</add-on>
+                                </add-ons>
+                            </discover-provisioning-info>
                             <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
