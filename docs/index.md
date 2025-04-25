@@ -84,11 +84,11 @@ mvn clean package cargo:run -Pglassfish
 Open another terminal window, use `curl` to verify the Todo Restful API example.
 
 ```bash
-# curl http://localhost:8080/demo/api/todos
+# curl http://localhost:8080/akartaee10-starter-boilerplate/api/todos
 [{"id":"c34b0111-f4af-46b6-9749-acf4eba8077e","completed":false,"title":"Say Hello to Jakarta EE 10"}]
 ```
 
-Open a web browser, and navigate to http://localhost:9080/demo to experience the Jakarta Faces Todo List example.
+Open a web browser, and navigate to http://localhost:9080/akartaee10-starter-boilerplate to experience the Jakarta Faces Todo List example.
 
 ![Todo](./faces-todo.png)
 
@@ -96,7 +96,7 @@ Open a web browser, and navigate to http://localhost:9080/demo to experience the
 There is an endpoint used to verify JMS functionality, execute the following command.
 
 ```bash
-# curl http://localhost:8080/demo/api/hellojms
+# curl http://localhost:8080/akartaee10-starter-boilerplate/api/hellojms
 sent
 ```
 
