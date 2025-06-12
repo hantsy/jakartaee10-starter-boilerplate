@@ -62,7 +62,7 @@
         <arquillian-glassfish.version>7.0.13</arquillian-glassfish.version>
 
         <!-- Payara server -->
-        <payara.version>6.2025.5</payara.version>
+        <payara.version>6.2025.6</payara.version>
         <arquillian-payara.version>3.1</arquillian-payara.version>
 
         <!-- Wildfly server -->
