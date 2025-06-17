@@ -13,9 +13,9 @@
             <property name="httpPort">-1</property>
             <property name="stopPort">-1</property>
             <!--Optional Container Properties-->
+            <!-- jakarta.persistence.provider=org.eclipse.persistence.jpa.PersistenceProvider -->
             <property name="properties">
                 aproperty=something
-                jakarta.persistence.provider=org.eclipse.persistence.jpa.PersistenceProvider
                 AMQResourceAdapter = new://Resource?type=ActiveMQResourceAdapter
                 AMQResourceAdapter.BrokerXmlConfig = broker:(tcp://localhost:61616?useJmx=false)
                 AMQMessageContainer = new://Container?type=MESSAGE
