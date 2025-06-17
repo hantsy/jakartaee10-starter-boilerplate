@@ -1,0 +1,34 @@
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://jboss.org/schema/arquillian"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian  https://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <!--    <defaultProtocol type="Servlet 5.0"/>-->
+
+    <engine>
+        <property name="deploymentExportPath">target/</property>
+    </engine>
+
+    <!-- Configuration to be used when the Apache TomEE Embedded profile is active -->
+    <container qualifier="tomee-embedded">
+        <configuration>
+            <property name="httpPort">-1</property>
+            <property name="stopPort">-1</property>
+            <!--Optional Container Properties-->
+            <!-- jakarta.persistence.provider=org.eclipse.persistence.jpa.PersistenceProvider -->
+            <property name="properties">
+                aproperty=something
+                AMQResourceAdapter = new://Resource?type=ActiveMQResourceAdapter
+                AMQResourceAdapter.BrokerXmlConfig = broker:(tcp://localhost:61616?useJmx=false)
+                AMQMessageContainer = new://Container?type=MESSAGE
+                AMQMessageContainer.ResourceAdapter = AMQResourceAdapter
+                AMQConnectionFactory = new://Resource?type=jakarta.jms.ConnectionFactory
+                AMQConnectionFactory.ResourceAdapter = AMQResourceAdapter
+            </property>
+            <!--Optional Remote Adapter Deployer Properties
+            <property name="deployerProperties">
+                aproperty=something
+            </property>
+            -->
+        </configuration>
+    </container>
+
+</arquillian>
