@@ -28,14 +28,14 @@
         <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
         <maven-surefire-report-plugin.version>3.5.3</maven-surefire-report-plugin.version>
         <!-- Maven 4 requires declarations of the plugins -->
-        <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
+        <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 
         <!-- sonar report -->
         <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
 
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
-        <cargo-maven3-plugin.version>1.10.18</cargo-maven3-plugin.version>
+        <cargo-maven3-plugin.version>1.10.20</cargo-maven3-plugin.version>
 
         <!-- Jakarta EE API 10.0.0 -->
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
@@ -45,7 +45,7 @@
         <!-- Since Arquillian core 1.9.0.Final, need to add Arquillian Jakarta BOM that aligns to Jakarta EE -->
         <arquillian-jakarta-bom.version>10.0.0.Final</arquillian-jakarta-bom.version>
         <shrinkwrap-resolver-bom.version>3.3.4</shrinkwrap-resolver-bom.version>
-        <junit-jupiter.version>5.12.1</junit-jupiter.version>
+        <junit-jupiter.version>5.13.1</junit-jupiter.version>
 
         <!-- Test Utilities -->
         <mockito.version>5.8.0</mockito.version>
@@ -56,18 +56,18 @@
         <assertj.version>3.27.3</assertj.version>
 
         <!-- Glassfish server -->
-        <glassfish.version>7.0.23</glassfish.version>
+        <glassfish.version>7.0.25</glassfish.version>
         <jersey.version>3.1.10</jersey.version>
         <eclipselink.version>4.0.5</eclipselink.version>
         <arquillian-glassfish.version>7.0.13</arquillian-glassfish.version>
 
         <!-- Payara server -->
-        <payara.version>6.2025.3</payara.version>
+        <payara.version>6.2025.6</payara.version>
         <arquillian-payara.version>3.1</arquillian-payara.version>
 
         <!-- Wildfly server -->
-        <wildfly.version>35.0.1.Final</wildfly.version>
-        <wildfly-maven-plugin.version>5.1.2.Final</wildfly-maven-plugin.version>
+        <wildfly.version>36.0.1.Final</wildfly.version>
+        <wildfly-maven-plugin.version>5.1.3.Final</wildfly-maven-plugin.version>
         <wildfly-arquillian.version>5.0.1.Final</wildfly-arquillian.version>
         <!-- wildfly-jar-maven-plugin is deprecated, since WildFly 34,
         it is recommended to use the `wildfly-maven-plugin` instead. -->
@@ -79,10 +79,10 @@
         <!-- Since 23.0.0.3, openliberty adds complete Jakarta EE 10 support.
 		          see: https://openliberty.io/blog/2023/04/04/23.0.0.3.html
          -->
-        <liberty.runtime.version>25.0.0.3</liberty.runtime.version>
+        <liberty.runtime.version>25.0.0.5</liberty.runtime.version>
         <!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
         <derby.version>10.14.2.0</derby.version>
-        <liberty-maven-plugin.version>3.11.3</liberty-maven-plugin.version>
+        <liberty-maven-plugin.version>3.11.4</liberty-maven-plugin.version>
         <!-- Jakarta EE 9 support see: https://github.com/OpenLiberty/liberty-arquillian/issues/71 -->
         <arquillian-liberty-jakarta.version>2.1.3</arquillian-liberty-jakarta.version>
 
@@ -436,20 +436,23 @@
                         <artifactId>wildfly-maven-plugin</artifactId>
                         <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-packs>
+                            <!--<feature-packs>
                                 <feature-pack>
                                     <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
                                 </feature-pack>
                                 <feature-pack>
-                                    <location>org.wildfly:wildfly-datasources-galleon-pack:${wildfly.version}</location>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:10.0.0.Final</location>
                                 </feature-pack>
                             </feature-packs>
                             <layers>
                                 <layer>jaxrs</layer>
                                 <layer>h2database-default-datasource</layer>
-                                <layer>messaging-activemq</layer>
+                                <layer>embedded-activemq</layer>
                                 <layer>management</layer>
-                            </layers>
+                                <layer>ejb</layer>
+                                <layer>jpa</layer>
+                                <layer>jsf</layer>
+                            </layers>-->
                             <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
@@ -463,7 +466,7 @@
                 </plugins>
             </build>
         </profile>
-        <!--<profile>
+        <profile>
             <id>wildfly-openshift</id>
             <properties>
                 <jkube.generator.from>registry.redhat.io/ubi8/openjdk-17:latest</jkube.generator.from>
@@ -472,22 +475,28 @@
                 <plugins>
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-jar-maven-plugin</artifactId>
-                        <version>${wildfly-jar-maven-plugin.version}</version>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${wildfly-maven-plugin.version}</version>
                         <configuration>
-                            <feature-pack-location>
-                                wildfly@maven(org.jboss.universe:community-universe)#${wildfly.version}
-                            </feature-pack-location>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${wildfly.version}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-datasources-galleon-pack:10.0.0.Final</location>
+                                </feature-pack>
+                            </feature-packs>
                             <layers>
-                                <layer>cloud-server</layer>
+                                <layer>jaxrs</layer>
+                                <layer>h2database-default-datasource</layer>
+                                <layer>embedded-activemq</layer>
+                                <layer>management</layer>
+                                <layer>ejb</layer>
+                                <layer>jpa</layer>
+                                <layer>jsf</layer>
+                                <layer>cloud-layer</layer>
                             </layers>
-                            <excluded-layers>
-                                <layer>deployment-scanner</layer>
-                            </excluded-layers>
-                            <cloud/>
-                            <plugin-options>
-                                <jboss-fork-embedded>true</jboss-fork-embedded>
-                            </plugin-options>
+                            <bootable-jar>true</bootable-jar>
                         </configuration>
                         <executions>
                             <execution>
@@ -521,7 +530,7 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>-->
+        </profile>
         <profile>
             <id>glassfish</id>
             <properties>
@@ -1260,6 +1269,10 @@
                                 -Djdk.attach.allowAttachSelf=true --add-opens java.base/java.io=ALL-UNNAMED --add-opens
                                 java.naming/javax.naming.spi=ALL-UNNAMED
                             </argLine>
+							<!-- Payara Micro only support web profile, does not support Jakarta Messaging -->
+							<excludes>
+								<exclude>**/*Jms*</exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -1500,6 +1513,18 @@
                     <version>${resteasy.version}</version>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>org.wildfly.core</groupId>
+                    <artifactId>wildfly-controller-client</artifactId>
+                    <version>28.0.1.Final</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.logging</groupId>
+                    <artifactId>jboss-logging</artifactId>
+                    <version>3.6.1.Final</version>
+                    <scope>test</scope>
+                </dependency>
                 <!-- use Jersey client instead -->
                 <!--<dependency>
                     <groupId>org.glassfish.jersey.media</groupId>
@@ -1660,6 +1685,9 @@
                                 <layer>h2database-default-datasource</layer>
                                 <layer>embedded-activemq</layer>
                                 <layer>management</layer>
+                                <layer>ejb</layer>
+                                <layer>jpa</layer>
+                                <layer>jsf</layer>
                             </layers>
                             <bootable-jar>true</bootable-jar>
                         </configuration>
