@@ -79,7 +79,7 @@
         <!-- Since 23.0.0.3, openliberty adds complete Jakarta EE 10 support.
 		see: https://openliberty.io/blog/2023/04/04/23.0.0.3.html
          -->
-        <liberty.runtime.version>25.0.0.5</liberty.runtime.version>
+        <liberty.runtime.version>25.0.0.6</liberty.runtime.version>
         <!-- WARNING: 10.15.x.x does not work with openliberty 20.0.0.1 -->
         <derby.version>10.14.2.0</derby.version>
         <liberty-maven-plugin.version>3.11.4</liberty-maven-plugin.version>
