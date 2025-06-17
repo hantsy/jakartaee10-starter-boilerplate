@@ -87,7 +87,7 @@
         <arquillian-liberty-jakarta.version>2.1.3</arquillian-liberty-jakarta.version>
 
         <!-- TomEE -->
-        <tomee.version>10.0.1</tomee.version>
+        <tomee.version>10.1.0</tomee.version>
 
         <!-- By default, skip tests -->
         <skip.unit.tests>true</skip.unit.tests>
@@ -1920,13 +1920,6 @@
                     <artifactId>tomee-jaxrs</artifactId>
                     <version>${tomee.version}</version>
                     <scope>test</scope>
-                </dependency>
-
-                <!-- Eclipse Link -->
-                <dependency>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>eclipselink</artifactId>
-                    <version>${eclipselink.version}</version>
                 </dependency>
 
                 <!-- ActiveMQ -->
