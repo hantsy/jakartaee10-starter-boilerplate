@@ -1146,6 +1146,7 @@
                                 -Djdk.attach.allowAttachSelf=true --add-opens java.base/java.io=ALL-UNNAMED --add-opens
                                 java.naming/javax.naming.spi=ALL-UNNAMED
                             </argLine>
+							<!-- Payara Micro only support web profile, does not support Jakarta Messaging -->
 							<excludes>
 								<exclude>**/*Jms*</exclude>
                             </excludes>
