@@ -20,7 +20,7 @@
 
 This project provides a simple template for Jakarta EE developers to start a Jakarta EE 10 project in seconds. 
 
-It contains a collection of simple examples to demonstrate the Jakarta EE specifications, varied test configurations of testing Jakarta EE components against the most popular Arquillian container adapters, and Github Actions example configuration for continuous integration and continuous deployment purpose.
+It contains a collection of simple examples to demonstrate the Jakarta EE specifications, various test configurations for testing Jakarta EE components against the most popular Arquillian container adapters, and a GitHub Actions example configuration for continuous integration and deployment purposes.
 
 ## Docs
 
