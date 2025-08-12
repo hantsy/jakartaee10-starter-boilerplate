@@ -35,7 +35,7 @@
         <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
 
         <!-- Cargo maven plugin to deploy apps to Glassfish/Payara servers -->
-        <cargo-maven3-plugin.version>1.10.20</cargo-maven3-plugin.version>
+        <cargo-maven3-plugin.version>1.10.21</cargo-maven3-plugin.version>
 
         <!-- Jakarta EE API 10.0.0 -->
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
