@@ -1392,7 +1392,7 @@
                 <dependency>
                     <groupId>org.wildfly.core</groupId>
                     <artifactId>wildfly-controller-client</artifactId>
-                    <version>28.0.1.Final</version>
+                    <version>29.0.1.Final</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
