@@ -87,7 +87,7 @@
         <arquillian-liberty-jakarta.version>2.1.3</arquillian-liberty-jakarta.version>
 
         <!-- TomEE -->
-        <tomee.version>10.1.0</tomee.version>
+        <tomee.version>10.1.3</tomee.version>
 
         <!-- By default, skip tests -->
         <skip.unit.tests>true</skip.unit.tests>
