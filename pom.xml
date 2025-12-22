@@ -1796,7 +1796,7 @@
         <profile>
             <id>coverage</id>
             <properties>
-                <jacoco.version>0.8.13</jacoco.version>
+                <jacoco.version>0.8.14</jacoco.version>
                 <asm.version>9.8</asm.version>
                 <arquillian-jacoco.version>1.1.0</arquillian-jacoco.version>
             </properties>
