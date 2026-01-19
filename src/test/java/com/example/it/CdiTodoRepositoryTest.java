@@ -44,7 +44,7 @@ public class CdiTodoRepositoryTest {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Resource(lookup = "java:comp/DefaultDataSource")
+    @Resource(name = "DefaultDataSource")
     DataSource dataSource;
 
     @Inject
@@ -52,8 +52,7 @@ public class CdiTodoRepositoryTest {
 
     private DbUtil dbUtil;
 
-    @BeforeEach()
-    public void setup() throws Exception {
+    public void init() throws Exception {
         utx.begin();
         dbUtil = new DbUtil(dataSource);
         dbUtil.clearTables();
@@ -62,6 +61,7 @@ public class CdiTodoRepositoryTest {
 
     @Test
     public void testNewTodo() throws Exception {
+        init();
         utx.begin();
         LOGGER.log(Level.INFO, "new todo ... ");
         Todo todo = Todo.of("test");
@@ -79,6 +79,7 @@ public class CdiTodoRepositoryTest {
 
     @Test
     public void testNewTodo2() throws Exception {
+        init();
         utx.begin();
         LOGGER.log(Level.INFO, "new todo2 ... ");
         Todo todo = Todo.of("test");
