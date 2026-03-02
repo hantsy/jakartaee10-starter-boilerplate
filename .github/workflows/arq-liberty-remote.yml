@@ -60,7 +60,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean verify -Parq-liberty-remote
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: server-log
