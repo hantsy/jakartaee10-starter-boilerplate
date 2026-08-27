@@ -577,7 +577,7 @@
                                 </artifactInstaller> -->
                                 <zipUrlInstaller>
                                     <url>
-                                        https://github.com/eclipse-ee4j/glassfish/releases/download/${glassfish.version}/glassfish-${glassfish.version}.zip
+                                        https://www.eclipse.org/downloads/download.php?file=/ee4j/glassfish/glassfish-${glassfish.version}.zip&amp;r=1
                                     </url>
                                     <downloadDir>${cargo.zipUrlInstaller.downloadDir}</downloadDir>
                                 </zipUrlInstaller>
